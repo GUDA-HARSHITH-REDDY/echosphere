@@ -1,0 +1,112 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  
+}
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Activity {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String
+  value     Float
+  co2Kg     Float
+  createdAt DateTime @default(now())
+}
+model WasteReport {
+  id          String   @id @default(uuid())
+  userId      String
+  title       String
+  description String
+  imageUrl    String?
+  category    String
+  priority    String   @default("medium")
+  latitude    Float
+  longitude   Float
+  status      String   @default("pending") // pending, resolved
+  createdAt   DateTime @default(now())
+}
+
+model RecyclingCenter {
+  id        String   @id @default(uuid())
+  name      String
+  address   String
+  latitude  Float
+  longitude Float
+  type      String   // plastic, e-waste, paper, etc.
+  createdAt DateTime @default(now())
+}
+
+model Alert {
+  id        String   @id @default(uuid())
+  type      String   // air_quality, flood, heatwave, etc.
+  message   String
+  region    String
+  severity  String   @default("moderate")
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  type        String   // tree_plantation, cleanup_drive, campaign
+  location    String
+  eventDate   DateTime
+  createdAt   DateTime @default(now())
+}
+
+model EventParticipant {
+  id       String   @id @default(uuid())
+  eventId  String
+  userId   String
+  joinedAt DateTime @default(now())
+
+  @@unique([eventId, userId])
+}
+model GreenPoints {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  points    Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model Badge {
+  id          String @id @default(uuid())
+  name        String
+  description String
+  icon        String
+  pointsCost  Int    @default(0)
+}
+
+model UserBadge {
+  id       String   @id @default(uuid())
+  userId   String
+  badgeId  String
+  earnedAt DateTime @default(now())
+
+  @@unique([userId, badgeId])
+}
