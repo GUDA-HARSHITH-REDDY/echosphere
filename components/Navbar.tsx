@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 
 const links = [
@@ -22,10 +22,21 @@ export default function Navbar() {
   const router = useRouter()
   const [user, setUser] = useState<any>(null)
   const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const userData = localStorage.getItem("user")
     if (userData) setUser(JSON.parse(userData))
+  }, [])
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
   const handleLogout = () => {
@@ -43,69 +54,62 @@ export default function Navbar() {
           🌱 EcoSphere
         </Link>
 
-        {/* Desktop links */}
-        <div className="hidden lg:flex gap-4 text-sm items-center flex-wrap">
-          {links.map((l) => (
-            <Link key={l.href} href={l.href}>{l.label}</Link>
-          ))}
-          {user?.isAdmin && <Link href="/admin">Admin</Link>}
+        <div className="flex items-center gap-4">
           {user ? (
-            <>
-              <span className="text-green-100 text-xs">Hi, {user.name?.split(" ")[0]}</span>
-              <button
-                onClick={handleLogout}
-                className="bg-white text-green-800 px-3 py-1 rounded text-xs font-semibold hover:bg-green-50"
-              >
-                Logout
-              </button>
-            </>
+            <span className="text-green-100 text-sm hidden sm:inline">
+              Hi, {user.name?.split(" ")[0]}
+            </span>
           ) : (
-            <>
+            <div className="flex gap-3 text-sm">
               <Link href="/login">Login</Link>
               <Link href="/register">Register</Link>
-            </>
+            </div>
           )}
-        </div>
 
-        {/* Mobile hamburger button */}
-        <button
-          className="lg:hidden text-2xl"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          {menuOpen ? "✕" : "☰"}
-        </button>
+          <div ref={menuRef} className="relative">
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="flex items-center gap-2 bg-green-800 hover:bg-green-900 px-4 py-2 rounded-lg text-sm"
+            >
+              Menu {menuOpen ? "▲" : "▼"}
+            </button>
+
+            {menuOpen && (
+              <div className="absolute right-0 mt-2 w-64 bg-white text-gray-800 rounded-lg shadow-xl border overflow-hidden z-50">
+                <div className="flex flex-col py-2">
+                  {links.map((l) => (
+                    <Link
+                      key={l.href}
+                      href={l.href}
+                      onClick={() => setMenuOpen(false)}
+                      className="px-4 py-2 text-sm hover:bg-green-50"
+                    >
+                      {l.label}
+                    </Link>
+                  ))}
+                  {user?.isAdmin && (
+                    <Link
+                      href="/admin"
+                      onClick={() => setMenuOpen(false)}
+                      className="px-4 py-2 text-sm hover:bg-green-50 font-semibold text-green-700"
+                    >
+                      Admin
+                    </Link>
+                  )}
+                  {user && (
+                    <button
+                      onClick={handleLogout}
+                      className="text-left px-4 py-2 text-sm hover:bg-red-50 text-red-600 border-t mt-1 pt-2"
+                    >
+                      Logout
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-
-      {/* Mobile dropdown menu */}
-      {menuOpen && (
-        <div className="lg:hidden flex flex-col gap-3 px-6 pb-4 text-sm">
-          {links.map((l) => (
-            <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)}>
-              {l.label}
-            </Link>
-          ))}
-          {user?.isAdmin && (
-            <Link href="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>
-          )}
-          {user ? (
-            <>
-              <span className="text-green-100 text-xs">Hi, {user.name?.split(" ")[0]}</span>
-              <button
-                onClick={handleLogout}
-                className="bg-white text-green-800 px-3 py-2 rounded text-xs font-semibold hover:bg-green-50 self-start"
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link href="/login" onClick={() => setMenuOpen(false)}>Login</Link>
-              <Link href="/register" onClick={() => setMenuOpen(false)}>Register</Link>
-            </>
-          )}
-        </div>
-      )}
     </nav>
   )
 }
