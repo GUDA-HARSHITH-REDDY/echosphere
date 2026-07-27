@@ -10,7 +10,19 @@ export default function AlertsPage() {
     fetch("/api/alerts")
       .then((res) => res.json())
       .then(setAlerts)
+    const userData = localStorage.getItem("user")
+  const user = userData ? JSON.parse(userData) : null
 
+  const handleLiveData = (data: any) => {
+    setLive(data)
+    if (user && (data.severity === "high" || data.severity === "moderate")) {
+      fetch("/api/notifications", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, message: `AQI is ${data.severity} today (${data.aqi}). ${data.message}` }),
+      })
+    }
+  }
     // try to use the browser's location for live AQI, fallback to default
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(

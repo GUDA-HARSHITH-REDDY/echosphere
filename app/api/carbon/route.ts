@@ -21,6 +21,7 @@ export async function POST(req: Request) {
   return NextResponse.json(activity)
 }
 
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const userId = searchParams.get("userId")

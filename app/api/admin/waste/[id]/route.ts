@@ -17,5 +17,12 @@ export async function PATCH(
     data: { status: "resolved" },
   })
 
+  await prisma.notification.create({
+    data: {
+      userId: report.userId,
+      message: `Your waste report "${report.title}" has been approved.`,
+    },
+  })
+
   return NextResponse.json(report)
 }
