@@ -29,6 +29,7 @@ export async function GET(
   return NextResponse.json({
     name: user.name,
     email: user.email,
+     profileImageUrl: user.profileImageUrl,
     totalCarbonSaved,
     greenPoints: greenPoints?.points || 0,
     badges: earnedBadges,

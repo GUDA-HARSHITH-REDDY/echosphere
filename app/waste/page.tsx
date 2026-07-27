@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useAuth } from "../../lib/useAuth"
 import Loading from "../../components/Loading"
+import { uploadImage } from "../../lib/uploadImage"
 
 export default function WastePage() {
   const { user, loading } = useAuth()
@@ -14,30 +15,42 @@ export default function WastePage() {
     category: "plastic",
     priority: "medium",
   })
-  const [imageBase64, setImageBase64] = useState<string | null>(null)
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
   const [reports, setReports] = useState<any[]>([])
   const [message, setMessage] = useState("")
   const [locating, setLocating] = useState(false)
+  const [filters, setFilters] = useState({ search: "", category: "", status: "" })
 
   const loadReports = () => {
-    fetch("/api/waste")
+    const params = new URLSearchParams()
+    if (filters.search) params.set("search", filters.search)
+    if (filters.category) params.set("category", filters.category)
+    if (filters.status) params.set("status", filters.status)
+
+    fetch(`/api/waste?${params.toString()}`)
       .then((res) => res.json())
       .then(setReports)
   }
 
   useEffect(() => {
     loadReports()
-  }, [])
+  }, [filters])
 
   if (loading) return <Loading />
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
 
-    const reader = new FileReader()
-    reader.onload = () => setImageBase64(reader.result as string)
-    reader.readAsDataURL(file)
+    setUploading(true)
+    try {
+      const url = await uploadImage(file)
+      setImageUrl(url)
+    } catch {
+      setMessage("Image upload failed — try again.")
+    }
+    setUploading(false)
   }
 
   const handleUseLocation = () => {
@@ -81,7 +94,7 @@ export default function WastePage() {
         description: form.description,
         category: form.category,
         priority: form.priority,
-        imageUrl: imageBase64,
+        imageUrl: imageUrl,
         latitude: parseFloat(form.latitude) || 0,
         longitude: parseFloat(form.longitude) || 0,
       }),
@@ -94,7 +107,7 @@ export default function WastePage() {
 
     setMessage("Report submitted — thank you!")
     setForm({ title: "", description: "", latitude: "", longitude: "", category: "plastic", priority: "medium" })
-    setImageBase64(null)
+    setImageUrl(null)
     loadReports()
   }
 
@@ -155,9 +168,10 @@ export default function WastePage() {
 
         <div>
           <label className="text-sm text-gray-600 block mb-1">Photo (optional)</label>
-          <input type="file" accept="image/*" onChange={handleImageChange} />
-          {imageBase64 && (
-            <img src={imageBase64} alt="preview" className="mt-2 h-24 rounded border" />
+          <input type="file" accept="image/*" onChange={handleImageChange} disabled={uploading} />
+          {uploading && <p className="text-xs text-gray-500 mt-1">Uploading...</p>}
+          {imageUrl && !uploading && (
+            <img src={imageUrl} alt="preview" className="mt-2 h-24 rounded border" />
           )}
         </div>
 
@@ -194,12 +208,45 @@ export default function WastePage() {
         <button
           type="submit"
           className="bg-green-700 text-white py-2 rounded hover:bg-green-800"
+          disabled={uploading}
         >
           Submit Report
         </button>
       </form>
 
       <h2 className="font-semibold mb-3">Recent Reports</h2>
+
+      <div className="flex gap-3 mb-4 flex-wrap">
+        <input
+          type="text"
+          placeholder="Search reports..."
+          value={filters.search}
+          onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+          className="border p-2 rounded text-sm flex-1 min-w-[150px]"
+        />
+        <select
+          value={filters.category}
+          onChange={(e) => setFilters({ ...filters, category: e.target.value })}
+          className="border p-2 rounded text-sm"
+        >
+          <option value="">All Categories</option>
+          <option value="plastic">Plastic</option>
+          <option value="organic">Organic</option>
+          <option value="e-waste">E-waste</option>
+          <option value="construction">Construction</option>
+          <option value="other">Other</option>
+        </select>
+        <select
+          value={filters.status}
+          onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+          className="border p-2 rounded text-sm"
+        >
+          <option value="">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="resolved">Resolved</option>
+        </select>
+      </div>
+
       <div className="flex flex-col gap-3">
         {reports.map((r) => (
           <div key={r.id} className="border rounded p-3">

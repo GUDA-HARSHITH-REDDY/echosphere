@@ -4,9 +4,19 @@ import { NextResponse } from "next/server"
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const userId = searchParams.get("userId")
+  const search = searchParams.get("search")
+  const category = searchParams.get("category")
+  const status = searchParams.get("status")
+  const city = searchParams.get("city")
 
   const reports = await prisma.wasteReport.findMany({
-    where: userId ? { userId } : undefined,
+    where: {
+      ...(userId && { userId }),
+      ...(search && { title: { contains: search, mode: "insensitive" } }),
+      ...(category && { category }),
+      ...(status && { status }),
+      ...(city && { city: { contains: city, mode: "insensitive" } }),
+    },
     orderBy: { createdAt: "desc" },
   })
   return NextResponse.json(reports)
@@ -23,6 +33,7 @@ export async function POST(req: Request) {
       imageUrl: body.imageUrl || null,
       category: body.category,
       priority: body.priority || "medium",
+      city: body.city || null,
       latitude: body.latitude,
       longitude: body.longitude,
     },
