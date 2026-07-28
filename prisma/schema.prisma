@@ -113,3 +113,21 @@ model UserBadge {
 
   @@unique([userId, badgeId])
 }
+model Challenge {
+  id            String   @id @default(uuid())
+  title         String
+  description   String
+  pointsReward  Int      @default(100)
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+}
+
+model UserChallenge {
+  id          String    @id @default(uuid())
+  userId      String
+  challengeId String
+  joinedAt    DateTime  @default(now())
+  completedAt DateTime?
+
+  @@unique([userId, challengeId])
+}

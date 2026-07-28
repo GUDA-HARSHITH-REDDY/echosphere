@@ -4,18 +4,26 @@ import Link from "next/link"
 import { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 
-const links = [
+const userLinks = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/carbon", label: "Carbon Footprint Calculator" },
-  { href: "/events", label: "Community Events" },
   { href: "/waste", label: "Report Waste" },
+  { href: "/events", label: "Community Events" },
+  { href: "/challenges", label: "Eco Challenges" },
+  { href: "/rewards", label: "Rewards" },
+  { href: "/leaderboard", label: "Leaderboard" },
   { href: "/recycling", label: "Recycling Centers" },
   { href: "/alerts", label: "Environmental Alerts" },
-  { href: "/rewards", label: "Rewards" },
   { href: "/analytics", label: "Analytics" },
   { href: "/notifications", label: "Notifications" },
   { href: "/profile", label: "Profile" },
   { href: "/status", label: "Status" },
+]
+
+const adminLinks = [
+  { href: "/admin", label: "Manage Users & Reports" },
+  { href: "/analytics", label: "Analytics" },
+  { href: "/profile", label: "Profile" },
 ]
 
 export default function Navbar() {
@@ -38,6 +46,8 @@ export default function Navbar() {
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
+
+  const links = user?.isAdmin ? adminLinks : userLinks
 
   const handleLogout = () => {
     localStorage.removeItem("token")
@@ -87,15 +97,6 @@ export default function Navbar() {
                       {l.label}
                     </Link>
                   ))}
-                  {user?.isAdmin && (
-                    <Link
-                      href="/admin"
-                      onClick={() => setMenuOpen(false)}
-                      className="px-4 py-2 text-sm hover:bg-green-50 font-semibold text-green-700"
-                    >
-                      Admin
-                    </Link>
-                  )}
                   {user && (
                     <button
                       onClick={handleLogout}
