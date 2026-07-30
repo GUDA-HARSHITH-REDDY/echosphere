@@ -112,18 +112,18 @@ export default async function Home() {
 
       {/* Stats Section */}
       <section className="relative z-10 max-w-5xl mx-auto px-6 -mt-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {stats.map((s) => (
-            <div
-              key={s.label}
-              className="glass rounded-xl p-5 text-center shadow-lg hover:-translate-y-1 hover:bg-white/20 transition-all duration-300"
-            >
-              <p className="text-2xl font-bold text-white">{s.value}</p>
-              <p className="text-sm text-green-50 mt-1">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {stats.map((s) => (
+      <div
+        key={s.label}
+        className="bg-white dark:bg-gray-800 rounded-xl p-5 text-center shadow-lg border dark:border-gray-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+      >
+        <p className="text-2xl font-bold text-[#065F46] dark:text-green-400">{s.value}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{s.label}</p>
+      </div>
+    ))}
+  </div>
+</section>
 
       {/* What / Why / What-can-you-do Section */}
       <section className="max-w-5xl mx-auto px-6 py-20">
