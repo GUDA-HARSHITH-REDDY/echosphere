@@ -18,6 +18,7 @@ const userLinks = [
   { href: "/notifications", label: "Notifications" },
   { href: "/profile", label: "Profile" },
   { href: "/status", label: "Status" },
+  { href: "/history", label: "My History" }
 ]
 
 const adminLinks = [
