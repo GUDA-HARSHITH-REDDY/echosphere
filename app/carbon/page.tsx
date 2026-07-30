@@ -3,12 +3,14 @@
 import { useState } from "react"
 import { useAuth } from "../../lib/useAuth"
 import Loading from "../../components/Loading"
+import { AchievementToast } from "../../components/AchievementToast"
 
 export default function CarbonPage() {
   const { user, loading } = useAuth()
   const [form, setForm] = useState({ type: "commute", value: "" })
   const [result, setResult] = useState<any>(null)
   const [error, setError] = useState("")
+  const [toast, setToast] = useState<{ message: string; points: number } | null>(null)
 
   if (loading) return <Loading />
 
@@ -40,11 +42,20 @@ export default function CarbonPage() {
     }
 
     setResult(data)
+    setToast({ message: `Activity logged — ${data.co2Kg} kg CO₂ tracked!`, points: 10 })
     setForm({ ...form, value: "" })
   }
 
   return (
     <main className="max-w-md mx-auto mt-16 p-6 border rounded-lg shadow">
+      {toast && (
+        <AchievementToast
+          message={toast.message}
+          points={toast.points}
+          onClose={() => setToast(null)}
+        />
+      )}
+
       <h1 className="text-2xl font-bold text-green-800 mb-6">Log an Activity</h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">

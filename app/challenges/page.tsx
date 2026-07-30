@@ -3,11 +3,13 @@
 import { useEffect, useState } from "react"
 import { useAuth } from "../../lib/useAuth"
 import Loading from "../../components/Loading"
+import { AchievementToast } from "../../components/AchievementToast"
 
 export default function ChallengesPage() {
   const { user, loading } = useAuth()
   const [challenges, setChallenges] = useState<any[]>([])
   const [message, setMessage] = useState("")
+  const [toast, setToast] = useState<{ message: string; points: number } | null>(null)
 
   const load = () => {
     if (!user) return
@@ -32,13 +34,13 @@ export default function ChallengesPage() {
     load()
   }
 
-  const complete = async (challengeId: string) => {
+  const complete = async (challenge: any) => {
     if (!user) return
     setMessage("")
     const res = await fetch("/api/challenges/complete", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: user.id, challengeId }),
+      body: JSON.stringify({ userId: user.id, challengeId: challenge.id }),
     })
     const data = await res.json()
     if (!res.ok) {
@@ -46,6 +48,7 @@ export default function ChallengesPage() {
       return
     }
     setMessage("Challenge completed — points awarded!")
+    setToast({ message: `You completed "${challenge.title}"!`, points: challenge.pointsReward })
     load()
   }
 
@@ -57,6 +60,14 @@ export default function ChallengesPage() {
 
   return (
     <main className="max-w-2xl mx-auto mt-16 p-6">
+      {toast && (
+        <AchievementToast
+          message={toast.message}
+          points={toast.points}
+          onClose={() => setToast(null)}
+        />
+      )}
+
       <h1 className="text-2xl font-bold text-green-800 mb-2">Eco Challenges</h1>
       <p className="text-gray-600 mb-6">
         Complete challenges to earn bonus Green Points.
@@ -91,7 +102,7 @@ export default function ChallengesPage() {
               )}
               {c.status === "joined" && (
                 <button
-                  onClick={() => complete(c.id)}
+                  onClick={() => complete(c)}
                   className="text-xs bg-green-700 text-white px-3 py-1 rounded hover:bg-green-800"
                 >
                   Mark as Complete

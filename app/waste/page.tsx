@@ -4,6 +4,9 @@ import { useEffect, useState } from "react"
 import { useAuth } from "../../lib/useAuth"
 import Loading from "../../components/Loading"
 import { uploadImage } from "../../lib/uploadImage"
+import { SkeletonList } from "../../components/Skeleton"
+import { EmptyState } from "../../components/EmptyState"
+import { AchievementToast } from "../../components/AchievementToast"
 
 export default function WastePage() {
   const { user, loading } = useAuth()
@@ -18,11 +21,14 @@ export default function WastePage() {
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
   const [reports, setReports] = useState<any[]>([])
+  const [reportsLoading, setReportsLoading] = useState(true)
   const [message, setMessage] = useState("")
   const [locating, setLocating] = useState(false)
   const [filters, setFilters] = useState({ search: "", category: "", status: "" })
+  const [toast, setToast] = useState<{ message: string; points: number } | null>(null)
 
   const loadReports = () => {
+    setReportsLoading(true)
     const params = new URLSearchParams()
     if (filters.search) params.set("search", filters.search)
     if (filters.category) params.set("category", filters.category)
@@ -30,7 +36,10 @@ export default function WastePage() {
 
     fetch(`/api/waste?${params.toString()}`)
       .then((res) => res.json())
-      .then(setReports)
+      .then((data) => {
+        setReports(data)
+        setReportsLoading(false)
+      })
   }
 
   useEffect(() => {
@@ -106,6 +115,7 @@ export default function WastePage() {
     }
 
     setMessage("Report submitted — thank you!")
+    setToast({ message: `Report "${form.title}" submitted successfully!`, points: 15 })
     setForm({ title: "", description: "", latitude: "", longitude: "", category: "plastic", priority: "medium" })
     setImageUrl(null)
     loadReports()
@@ -119,6 +129,14 @@ export default function WastePage() {
 
   return (
     <main className="max-w-2xl mx-auto mt-16 p-6">
+      {toast && (
+        <AchievementToast
+          message={toast.message}
+          points={toast.points}
+          onClose={() => setToast(null)}
+        />
+      )}
+
       <h1 className="text-2xl font-bold text-green-800 mb-2">Report Waste</h1>
       <p className="text-gray-600 mb-6">
         Spotted illegal dumping or an overflowing bin? Report it here.
@@ -247,28 +265,33 @@ export default function WastePage() {
         </select>
       </div>
 
-      <div className="flex flex-col gap-3">
-        {reports.map((r) => (
-          <div key={r.id} className="border rounded p-3">
-            <div className="flex justify-between items-start">
-              <div>
-                <h3 className="font-semibold">{r.title}</h3>
-                <p className="text-sm text-gray-600 mt-1">{r.description}</p>
-                <p className="text-xs text-gray-400 mt-2">
-                  {r.category} • Status: {r.status} • {new Date(r.createdAt).toLocaleDateString()}
-                </p>
+      {reportsLoading ? (
+        <SkeletonList count={3} />
+      ) : reports.length === 0 ? (
+        <EmptyState icon="📦" title="No reports yet. Report your first waste issue." />
+      ) : (
+        <div className="flex flex-col gap-3">
+          {reports.map((r) => (
+            <div key={r.id} className="border rounded p-3">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="font-semibold">{r.title}</h3>
+                  <p className="text-sm text-gray-600 mt-1">{r.description}</p>
+                  <p className="text-xs text-gray-400 mt-2">
+                    {r.category} • Status: {r.status} • {new Date(r.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+                <span className={`text-xs px-2 py-1 rounded capitalize shrink-0 ${priorityColor[r.priority]}`}>
+                  {r.priority}
+                </span>
               </div>
-              <span className={`text-xs px-2 py-1 rounded capitalize shrink-0 ${priorityColor[r.priority]}`}>
-                {r.priority}
-              </span>
+              {r.imageUrl && (
+                <img src={r.imageUrl} alt={r.title} className="mt-2 h-20 rounded border" />
+              )}
             </div>
-            {r.imageUrl && (
-              <img src={r.imageUrl} alt={r.title} className="mt-2 h-20 rounded border" />
-            )}
-          </div>
-        ))}
-        {reports.length === 0 && <p className="text-gray-500 text-sm">No reports yet.</p>}
-      </div>
+          ))}
+        </div>
+      )}
     </main>
   )
 }

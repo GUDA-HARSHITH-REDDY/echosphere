@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
+import { useTheme } from "../lib/ThemeContext"
 
 const userLinks = [
   { href: "/dashboard", label: "Dashboard" },
@@ -29,6 +30,7 @@ const adminLinks = [
 
 export default function Navbar() {
   const router = useRouter()
+  const { dark, toggle } = useTheme()
   const [user, setUser] = useState<any>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -76,6 +78,14 @@ export default function Navbar() {
               <Link href="/register">Register</Link>
             </div>
           )}
+
+          <button
+            onClick={toggle}
+            className="bg-green-800 hover:bg-green-900 px-3 py-2 rounded-lg text-sm"
+            aria-label="Toggle dark mode"
+          >
+            {dark ? "🌙" : "🌞"}
+          </button>
 
           <div ref={menuRef} className="relative">
             <button
