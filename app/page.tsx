@@ -111,7 +111,7 @@ export default async function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="max-w-5xl mx-auto px-6 -mt-10">
+      <section className="relative z-10 max-w-5xl mx-auto px-6 -mt-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {stats.map((s) => (
             <div
