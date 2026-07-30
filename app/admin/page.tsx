@@ -10,13 +10,14 @@ export default function AdminPage() {
   const [users, setUsers] = useState<any[]>([])
   const [wasteReports, setWasteReports] = useState<any[]>([])
   const [events, setEvents] = useState<any[]>([])
-  const [tab, setTab] = useState<"users" | "waste" | "events">("users")
+  const [badges, setBadges] = useState<any[]>([])
+  const [tab, setTab] = useState<"users" | "waste" | "events" | "rewards">("users")
   const [message, setMessage] = useState("")
 
   const [newAlert, setNewAlert] = useState({ type: "flood", message: "", region: "", severity: "moderate" })
   const [newEvent, setNewEvent] = useState({ title: "", description: "", type: "tree_plantation", location: "", eventDate: "" })
-
-  const token = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("token") || "null") : null
+  const [newBadge, setNewBadge] = useState({ name: "", description: "", icon: "", pointsCost: 0 })
+  const [editingBadgeId, setEditingBadgeId] = useState<string | null>(null)
 
   const authHeader = () => ({
     "Content-Type": "application/json",
@@ -27,6 +28,7 @@ export default function AdminPage() {
     fetch("/api/admin/users", { headers: authHeader() }).then((r) => r.json()).then(setUsers)
     fetch("/api/waste").then((r) => r.json()).then(setWasteReports)
     fetch("/api/events").then((r) => r.json()).then(setEvents)
+    fetch("/api/badges").then((r) => r.json()).then(setBadges)
   }
 
   useEffect(() => {
@@ -78,6 +80,54 @@ export default function AdminPage() {
     loadAll()
   }
 
+  const submitBadge = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setMessage("")
+
+    if (editingBadgeId) {
+      const res = await fetch(`/api/badges/${editingBadgeId}`, {
+        method: "PUT",
+        headers: authHeader(),
+        body: JSON.stringify(newBadge),
+      })
+      if (!res.ok) {
+        setMessage("Failed to update badge")
+        return
+      }
+      setMessage("Badge updated!")
+      setEditingBadgeId(null)
+    } else {
+      const res = await fetch("/api/badges", {
+        method: "POST",
+        headers: authHeader(),
+        body: JSON.stringify(newBadge),
+      })
+      if (!res.ok) {
+        setMessage("Failed to create badge")
+        return
+      }
+      setMessage("Badge created!")
+    }
+
+    setNewBadge({ name: "", description: "", icon: "", pointsCost: 0 })
+    loadAll()
+  }
+
+  const startEditBadge = (b: any) => {
+    setEditingBadgeId(b.id)
+    setNewBadge({ name: b.name, description: b.description, icon: b.icon, pointsCost: b.pointsCost })
+  }
+
+  const cancelEditBadge = () => {
+    setEditingBadgeId(null)
+    setNewBadge({ name: "", description: "", icon: "", pointsCost: 0 })
+  }
+
+  const deleteBadge = async (id: string) => {
+    await fetch(`/api/badges/${id}`, { method: "DELETE", headers: authHeader() })
+    loadAll()
+  }
+
   return (
     <main className="max-w-4xl mx-auto mt-16 p-6">
       <h1 className="text-2xl font-bold text-green-800 mb-2">Admin Dashboard</h1>
@@ -89,7 +139,7 @@ export default function AdminPage() {
       {message && <p className="text-sm text-green-700 mb-4">{message}</p>}
 
       <div className="flex gap-4 mb-6 border-b">
-        {(["users", "waste", "events"] as const).map((t) => (
+        {(["users", "waste", "events", "rewards"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -199,6 +249,90 @@ export default function AdminPage() {
                 </button>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {tab === "rewards" && (
+        <div>
+          <form onSubmit={submitBadge} className="border rounded p-4 mb-6 flex flex-col gap-3">
+            <h3 className="font-semibold text-sm">
+              {editingBadgeId ? "Edit Badge" : "Create Badge"}
+            </h3>
+            <div className="flex gap-3">
+              <input
+                placeholder="Name"
+                value={newBadge.name}
+                onChange={(e) => setNewBadge({ ...newBadge, name: e.target.value })}
+                className="border p-2 rounded text-sm flex-1"
+                required
+              />
+              <input
+                placeholder="Icon (emoji)"
+                value={newBadge.icon}
+                onChange={(e) => setNewBadge({ ...newBadge, icon: e.target.value })}
+                className="border p-2 rounded text-sm w-24"
+                required
+              />
+            </div>
+            <input
+              placeholder="Description"
+              value={newBadge.description}
+              onChange={(e) => setNewBadge({ ...newBadge, description: e.target.value })}
+              className="border p-2 rounded text-sm"
+              required
+            />
+            <input
+              type="number"
+              placeholder="Points Cost"
+              value={newBadge.pointsCost}
+              onChange={(e) => setNewBadge({ ...newBadge, pointsCost: parseInt(e.target.value) || 0 })}
+              className="border p-2 rounded text-sm w-32"
+              required
+            />
+            <div className="flex gap-2">
+              <button type="submit" className="bg-green-700 text-white py-2 px-4 rounded text-sm hover:bg-green-800">
+                {editingBadgeId ? "Save Changes" : "Create Badge"}
+              </button>
+              {editingBadgeId && (
+                <button
+                  type="button"
+                  onClick={cancelEditBadge}
+                  className="bg-gray-200 text-gray-700 py-2 px-4 rounded text-sm hover:bg-gray-300"
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
+          </form>
+
+          <div className="flex flex-col gap-2">
+            {badges.map((b) => (
+              <div key={b.id} className="border rounded p-3 flex justify-between items-center text-sm">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">{b.icon}</span>
+                  <div>
+                    <p className="font-semibold">{b.name}</p>
+                    <p className="text-gray-500 text-xs">{b.description} • {b.pointsCost} pts</p>
+                  </div>
+                </div>
+                <div className="flex gap-2 shrink-0">
+                  <button
+                    onClick={() => startEditBadge(b)}
+                    className="text-xs bg-green-100 text-green-800 px-3 py-1 rounded hover:bg-green-200"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => deleteBadge(b.id)}
+                    className="text-xs bg-red-100 text-red-700 px-3 py-1 rounded hover:bg-red-200"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+            {badges.length === 0 && <p className="text-gray-500 text-sm">No badges yet.</p>}
           </div>
         </div>
       )}
