@@ -131,3 +131,12 @@ model UserChallenge {
 
   @@unique([userId, challengeId])
 }
+model AgentLog {
+  id          String   @id @default(uuid())
+  action      String   // "classify_report", "propose_event"
+  input       String
+  decision    String
+  reasoning   String
+  wasteReportId String?
+  createdAt   DateTime @default(now())
+}

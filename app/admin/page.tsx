@@ -134,6 +134,7 @@ export default function AdminPage() {
       <p className="text-gray-500 mb-6">
         Manage users, waste reports, events, and alerts. See full{" "}
         <Link href="/analytics" className="text-green-700 underline">Analytics</Link>.
+        <Link href="/admin/agent" className="text-green-700 underline">Agent Activity</Link>
       </p>
 
       {message && <p className="text-sm text-green-700 mb-4">{message}</p>}

@@ -1,5 +1,6 @@
 import { prisma } from "../../../lib/prisma"
 import { NextResponse } from "next/server"
+import { classifyReport, checkAndProposeEvent } from "../../../lib/ecoAgent"
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
@@ -25,14 +26,28 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   const body = await req.json()
 
+  // AGENT STEP 1: classify the report autonomously (overrides manual category/priority if agent is confident)
+  let category = body.category
+  let priority = body.priority || "medium"
+  let agentReasoning = null
+
+  try {
+    const classification = await classifyReport(body.title, body.description)
+    category = classification.category
+    priority = classification.priority
+    agentReasoning = classification.reasoning
+  } catch {
+    // fall back to user-provided values if the agent call fails
+  }
+
   const report = await prisma.wasteReport.create({
     data: {
       userId: body.userId,
       title: body.title,
       description: body.description,
       imageUrl: body.imageUrl || null,
-      category: body.category,
-      priority: body.priority || "medium",
+      category,
+      priority,
       city: body.city || null,
       latitude: body.latitude,
       longitude: body.longitude,
@@ -45,5 +60,12 @@ export async function POST(req: Request) {
     create: { userId: body.userId, points: 15 },
   })
 
-  return NextResponse.json(report)
+  await prisma.notification.create({
+    data: { userId: body.userId, message: "You earned 15 Green Points!" },
+  })
+
+  // AGENT STEP 2: autonomously check for a cluster and propose an event (fire-and-forget, doesn't block the response)
+  checkAndProposeEvent(body.city, category).catch(() => {})
+
+  return NextResponse.json({ ...report, agentReasoning })
 }

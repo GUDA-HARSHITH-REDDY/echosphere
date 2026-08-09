@@ -109,12 +109,19 @@ export default function WastePage() {
       }),
     })
 
+    const data = await res.json()
+
     if (!res.ok) {
       setMessage("Something went wrong")
       return
     }
 
-    setMessage("Report submitted — thank you!")
+    if (data.agentReasoning) {
+      setMessage(`Report submitted — EcoAgent classified this as ${data.category}/${data.priority}. ${data.agentReasoning}`)
+    } else {
+      setMessage("Report submitted — thank you!")
+    }
+
     setToast({ message: `Report "${form.title}" submitted successfully!`, points: 15 })
     setForm({ title: "", description: "", latitude: "", longitude: "", category: "plastic", priority: "medium" })
     setImageUrl(null)
