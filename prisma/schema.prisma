@@ -132,11 +132,39 @@ model UserChallenge {
   @@unique([userId, challengeId])
 }
 model AgentLog {
-  id          String   @id @default(uuid())
-  action      String   // "classify_report", "propose_event"
-  input       String
-  decision    String
-  reasoning   String
-  wasteReportId String?
-  createdAt   DateTime @default(now())
+  id             String   @id @default(uuid())
+  userId         String?
+  agentName      String   @default("eco_agent")
+  action         String
+  input          String
+  decision       String
+  reasoning      String
+  toolCalls      Json?
+  status         String   @default("completed") // completed, failed
+  wasteReportId  String?
+  createdAt      DateTime @default(now())
+
+}
+model SustainabilityPlan {
+  id        String   @id @default(uuid())
+  userId    String
+  days      Json     // [{ day: 1, action: "...", reason: "..." }, ...]
+  summary   String
+  createdAt DateTime @default(now())
+}
+
+model UserGoal {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  goal      String?  // free-text sustainability goal the user has set
+  updatedAt DateTime @updatedAt
+}
+
+model AiRecommendation {
+  id          String    @id @default(uuid())
+  userId      String
+  agentName   String    // "carbon_agent", "waste_agent", etc.
+  message     String
+  completed   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
 }
