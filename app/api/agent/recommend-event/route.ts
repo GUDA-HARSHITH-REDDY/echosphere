@@ -14,7 +14,7 @@ export async function GET(req: Request) {
   // AGENT STEP 1 (Perceive): gather signals
   const [upcomingEvents, pastParticipation, wasteReports] = await Promise.all([
     prisma.event.findMany({ where: { eventDate: { gte: new Date() } }, take: 15, orderBy: { eventDate: "asc" } }),
-    prisma.eventParticipant.findMany({ where: { userId: user.id }, include: {} }),
+    prisma.eventParticipant.findMany({ where: { userId: user.id } }),
     prisma.wasteReport.findMany({ where: { userId: user.id }, select: { city: true, category: true } }),
   ])
 
