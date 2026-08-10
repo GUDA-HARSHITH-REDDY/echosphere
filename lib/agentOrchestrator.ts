@@ -70,7 +70,7 @@ Keep responses concise, specific, and grounded only in the data returned by tool
     for (const call of choice.tool_calls) {
       if (call.type !== "function") continue
       const args = JSON.parse(call.function.arguments || "{}")
-      const result = await executeTool(call.function.name, args, userId)
+      const result: any = await executeTool(call.function.name, args, userId)
 
       toolCallLog.push({ tool: call.function.name, args, result })
 
