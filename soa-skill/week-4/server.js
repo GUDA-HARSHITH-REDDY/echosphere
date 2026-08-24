@@ -17,11 +17,18 @@ function unauthorized(res, message) {
   return res.status(401).json({ success: false, message });
 }
 
+function cookieValue(req, name) {
+  const cookies = String(req.headers.cookie || '').split(';');
+  const cookie = cookies.find((item) => item.trim().startsWith(`${name}=`));
+  return cookie ? decodeURIComponent(cookie.trim().slice(name.length + 1)) : '';
+}
+
 function authenticateToken(req, res, next) {
   const authorization = req.headers.authorization || '';
-  const [scheme, token] = authorization.split(' ');
+  const [scheme, bearerToken] = authorization.split(' ');
+  const token = scheme === 'Bearer' && bearerToken ? bearerToken : cookieValue(req, 'bankingJwt');
 
-  if (scheme !== 'Bearer' || !token) {
+  if (!token) {
     return unauthorized(res, 'Authentication required. Provide a Bearer token.');
   }
 
@@ -78,6 +85,7 @@ app.post('/login', (req, res) => {
     role: account.role
   };
   const token = jwt.sign(user, JWT_SECRET, { expiresIn: TOKEN_LIFETIME });
+  res.setHeader('Set-Cookie', `bankingJwt=${encodeURIComponent(token)}; HttpOnly; SameSite=Lax; Max-Age=900; Path=/`);
 
   res.json({ success: true, message: 'Login successful. JWT issued.', token, expiresIn: TOKEN_LIFETIME, user });
 });
