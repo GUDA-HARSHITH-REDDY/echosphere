@@ -1,4 +1,6 @@
 node_modules/
+*.env
+!.env.example
 jobPortal.db
 jobPortal.db-shm
 jobPortal.db-wal

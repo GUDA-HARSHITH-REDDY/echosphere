@@ -1,63 +1,98 @@
 const express = require('express');
 const path = require('path');
-const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcryptjs');
+const { Pool } = require('pg');
+require('dotenv').config({
+  path: [path.join(__dirname, '.env'), path.join(__dirname, '..', '..', '.env')]
+});
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const dbPath = path.join(__dirname, 'jobPortal.db');
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-const db = new sqlite3.Database(dbPath, (err) => {
-  if (err) {
-    console.error('Database connection failed:', err.message);
-    process.exit(1);
-  }
-  console.log('Connected to SQLite database');
-
-  const schema = `
+const schema = `
     CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       username TEXT NOT NULL UNIQUE,
       email TEXT NOT NULL UNIQUE,
       password TEXT NOT NULL,
-      created_at TEXT DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE IF NOT EXISTS jobs (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       title TEXT NOT NULL,
       company TEXT NOT NULL,
       location TEXT NOT NULL,
       salary TEXT,
       description TEXT NOT NULL,
-      created_at TEXT DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE IF NOT EXISTS applications (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      job_id INTEGER NOT NULL,
-      user_id INTEGER,
+      id SERIAL PRIMARY KEY,
+      job_id INTEGER NOT NULL REFERENCES jobs(id),
+      user_id INTEGER REFERENCES users(id),
       full_name TEXT NOT NULL,
       email TEXT NOT NULL,
       resume TEXT NOT NULL,
       status TEXT DEFAULT 'pending',
-      created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       UNIQUE(job_id, email)
     );
   `;
 
-  db.exec(schema, (createErr) => {
-    if (createErr) {
-      console.error('Table creation failed:', createErr.message);
-      process.exit(1);
-    }
-    console.log('Users, jobs and applications tables ready');
-  });
-});
+function toPostgresQuery(sql) {
+  let parameter = 0;
+  return sql.replace(/\?/g, () => `$${++parameter}`);
+}
+
+const db = {
+  get(sql, values, callback) {
+    pool.query(toPostgresQuery(sql), values).then(({ rows }) => callback(null, rows[0])).catch(callback);
+  },
+  all(sql, values, callback) {
+    pool.query(toPostgresQuery(sql), values).then(({ rows }) => callback(null, rows)).catch(callback);
+  },
+  run(sql, values, callback) {
+    const query = /^\s*INSERT\s/i.test(sql) ? `${sql} RETURNING id` : sql;
+    pool.query(toPostgresQuery(query), values).then(({ rows }) => {
+      callback.call({ lastID: rows[0]?.id }, null);
+    }).catch((error) => callback.call({}, error));
+  }
+};
+
+async function initializeDatabase() {
+  await pool.query(schema);
+  await pool.query(`
+    INSERT INTO jobs (title, company, location, salary, description)
+    SELECT * FROM (VALUES
+      ('Backend Developer', 'GreenTech Labs', 'Hyderabad', 'INR 8-12 LPA', 'Build APIs that help organizations measure and reduce their environmental impact.'),
+      ('Frontend Engineer', 'EcoWorks', 'Bengaluru', 'INR 6-10 LPA', 'Create accessible dashboards for tracking sustainability goals.'),
+      ('Data Analyst', 'Blue Planet Analytics', 'Remote', 'INR 5-9 LPA', 'Turn climate and business data into practical insights.')
+    ) AS seed(title, company, location, salary, description)
+    WHERE NOT EXISTS (SELECT 1 FROM jobs);
+  `);
+  await pool.query(`
+    INSERT INTO users (username, email, password)
+    SELECT 'demo_student', 'demo.student@example.com', '$2b$10$7EqJtq98hPqEX7fNZaFWoO5Jf7e5w0e9YlZr8xP1K0j6Oe0H2x8mK'
+    WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'demo.student@example.com');
+  `);
+  await pool.query(`
+    INSERT INTO applications (job_id, user_id, full_name, email, resume)
+    SELECT j.id, u.id, 'Demo Student', u.email, 'demo-resume.pdf'
+    FROM jobs j CROSS JOIN users u
+    WHERE j.title = 'Backend Developer' AND u.email = 'demo.student@example.com'
+      AND NOT EXISTS (
+        SELECT 1 FROM applications a WHERE a.job_id = j.id AND a.email = u.email
+      );
+  `);
+  console.log('Connected to PostgreSQL; users, jobs and applications tables ready');
+}
 
 function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -282,19 +317,19 @@ app.post('/jobs/:id/apply', (req, res) => {
 });
 
 app.get('/admin/stats', (req, res) => {
-  db.get('SELECT COUNT(*) AS totalUsers FROM users', [], (userErr, userStats) => {
+  db.get('SELECT COUNT(*) AS "totalUsers" FROM users', [], (userErr, userStats) => {
     if (userErr) {
       console.error('User stats query error:', userErr.message);
       return sendError(res, 500, 'Unable to load user stats.');
     }
 
-    db.get('SELECT COUNT(*) AS totalJobs FROM jobs', [], (jobErr, jobStats) => {
+    db.get('SELECT COUNT(*) AS "totalJobs" FROM jobs', [], (jobErr, jobStats) => {
       if (jobErr) {
         console.error('Job stats query error:', jobErr.message);
         return sendError(res, 500, 'Unable to load job stats.');
       }
 
-      db.get('SELECT COUNT(*) AS totalApplications FROM applications', [], (applicationErr, appStats) => {
+      db.get('SELECT COUNT(*) AS "totalApplications" FROM applications', [], (applicationErr, appStats) => {
         if (applicationErr) {
           console.error('Application stats query error:', applicationErr.message);
           return sendError(res, 500, 'Unable to load application stats.');
@@ -388,6 +423,13 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`Job portal app is running on http://localhost:${PORT}`);
-});
+initializeDatabase()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Job portal app is running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error('PostgreSQL initialization failed:', error.message);
+    process.exit(1);
+  });
