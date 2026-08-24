@@ -1,0 +1,4 @@
+node_modules/
+jobPortal.db
+jobPortal.db-shm
+jobPortal.db-wal

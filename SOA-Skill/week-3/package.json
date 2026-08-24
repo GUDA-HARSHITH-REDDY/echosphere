@@ -1,0 +1,23 @@
+{
+  "name": "job-portal-demo",
+  "version": "1.0.0",
+  "description": "Job portal registration and login demo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "job",
+    "portal",
+    "express",
+    "sqlite"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7"
+  }
+}

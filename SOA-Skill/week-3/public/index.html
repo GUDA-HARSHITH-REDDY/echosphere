@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Portal</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Job Portal</h1>
+        <p>Welcome! Create an account, browse jobs, apply, and manage the portal.</p>
+      </header>
+
+      <nav class="top-nav">
+        <button class="nav-link active" data-target="account-section">Account</button>
+        <button class="nav-link" data-target="jobs-section">Jobs</button>
+        <button class="nav-link" data-target="apply-section">Apply</button>
+        <button class="nav-link" data-target="admin-section">Admin</button>
+        <button class="nav-link" data-target="reset-section">Reset Password</button>
+      </nav>
+
+      <main>
+        <section id="account-section" class="panel active">
+          <div class="card-grid">
+            <section class="card">
+              <h2>Register</h2>
+              <form id="registerForm">
+                <label>
+                  Username
+                  <input type="text" id="registerUsername" name="username" placeholder="Enter username" required />
+                </label>
+
+                <label>
+                  Email
+                  <input type="email" id="registerEmail" name="email" placeholder="Enter email" required />
+                </label>
+
+                <label>
+                  Password
+                  <input type="password" id="registerPassword" name="password" placeholder="Enter password" required />
+                </label>
+
+                <button type="submit">Create Account</button>
+              </form>
+              <div id="registerMessage" class="message"></div>
+            </section>
+
+            <section class="card">
+              <h2>Login</h2>
+              <form id="loginForm">
+                <label>
+                  Email
+                  <input type="email" id="loginEmail" name="email" placeholder="Enter email" required />
+                </label>
+
+                <label>
+                  Password
+                  <input type="password" id="loginPassword" name="password" placeholder="Enter password" required />
+                </label>
+
+                <button type="submit">Login</button>
+              </form>
+              <div id="loginMessage" class="message"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="jobs-section" class="panel">
+          <div class="card-grid two-col">
+            <section class="card">
+              <h2>Post a Job</h2>
+              <form id="jobForm">
+                <label>
+                  Job Title
+                  <input type="text" id="jobTitle" name="title" placeholder="e.g. Frontend Developer" required />
+                </label>
+
+                <label>
+                  Company
+                  <input type="text" id="jobCompany" name="company" placeholder="Company name" required />
+                </label>
+
+                <label>
+                  Location
+                  <input type="text" id="jobLocation" name="location" placeholder="Remote / Lagos / Dubai" required />
+                </label>
+
+                <label>
+                  Salary
+                  <input type="text" id="jobSalary" name="salary" placeholder="Optional salary" />
+                </label>
+
+                <label>
+                  Description
+                  <textarea id="jobDescription" name="description" rows="4" placeholder="Describe the role" required></textarea>
+                </label>
+
+                <button type="submit">Post Job</button>
+              </form>
+              <div id="jobMessage" class="message"></div>
+            </section>
+
+            <section class="card">
+              <h2>Available Jobs</h2>
+              <div id="jobList" class="job-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="apply-section" class="panel">
+          <div class="card">
+            <h2>Apply for a Job</h2>
+            <form id="applyForm">
+              <label>
+                Select Job
+                <select id="jobSelect" name="jobId" required></select>
+              </label>
+
+              <label>
+                Full Name
+                <input type="text" id="applicantName" name="fullName" placeholder="Your full name" required />
+              </label>
+
+              <label>
+                Email
+                <input type="email" id="applicantEmail" name="email" placeholder="Your email" required />
+              </label>
+
+              <label>
+                Resume / Experience
+                <textarea id="applicantResume" name="resume" rows="5" placeholder="Briefly describe your skills and experience" required></textarea>
+              </label>
+
+              <button type="submit">Submit Application</button>
+            </form>
+            <div id="applyMessage" class="message"></div>
+          </div>
+        </section>
+
+        <section id="admin-section" class="panel">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span>Total Users</span>
+              <strong id="totalUsers">0</strong>
+            </div>
+            <div class="stat-card">
+              <span>Total Jobs</span>
+              <strong id="totalJobs">0</strong>
+            </div>
+            <div class="stat-card">
+              <span>Total Applications</span>
+              <strong id="totalApplications">0</strong>
+            </div>
+          </div>
+
+          <div class="card-grid two-col">
+            <section class="card">
+              <h2>Recent Jobs</h2>
+              <div id="recentJobs" class="mini-list"></div>
+            </section>
+
+            <section class="card">
+              <h2>Recent Applications</h2>
+              <div id="recentApplications" class="mini-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="reset-section" class="panel">
+          <div class="card">
+            <h2>Password Reset</h2>
+            <form id="resetForm">
+              <label>
+                Email
+                <input type="email" id="resetEmail" name="email" placeholder="Enter your email" required />
+              </label>
+
+              <label>
+                New Password
+                <input type="password" id="newPassword" name="newPassword" placeholder="New password" required />
+              </label>
+
+              <label>
+                Confirm Password
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required />
+              </label>
+
+              <button type="submit">Reset Password</button>
+            </form>
+            <div id="resetMessage" class="message"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
