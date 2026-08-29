@@ -42,6 +42,10 @@ model WasteReport {
   latitude    Float
   longitude   Float
   status      String   @default("pending") // pending, resolved
+  department        String?
+  slaDeadline       DateTime?
+  citizenVerified   Boolean?
+  citizenFeedback   String?
   createdAt   DateTime @default(now())
 }
 
@@ -168,3 +172,14 @@ model AiRecommendation {
   completed   Boolean   @default(false)
   createdAt   DateTime  @default(now())
 }
+model ComplaintAuditLog {
+  id           String   @id @default(uuid())
+  wasteReportId String
+  fromStatus   String?
+  toStatus     String
+  actorId      String
+  actorRole    String   // "citizen" or "authority"
+  note         String?
+  createdAt    DateTime @default(now())
+}
+
