@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signal Lab | CORS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand"><span class="brand-mark">/</span><span>signal<span class="muted">.lab</span></span></div>
+        <div class="origin"><span class="pulse"></span> CLIENT ORIGIN <strong id="client-origin">localhost:5173</strong></div>
+      </header>
+
+      <section class="intro">
+        <div class="eyebrow">CROSS-ORIGIN REQUEST LAB <span>01 / 04</span></div>
+        <h1>Same request.<br /><em>Different permission.</em></h1>
+        <p class="lede">Watch the browser draw the boundary between a frontend and its API, then open the gate with one precise policy.</p>
+      </section>
+
+      <section class="lab-grid" aria-label="CORS request comparison">
+        <article class="request-card blocked-card">
+          <div class="card-top"><span class="step-number">01</span><span class="status-chip blocked">4000 · ERROR</span></div>
+          <div class="endpoint"><span class="method">GET</span><code>localhost:4000/profile</code></div>
+          <p class="card-copy">The API responds, but the browser refuses to hand the response to this origin.</p>
+          <button class="run-button" data-port="4000" data-mode="blocked"><span class="button-icon">↗</span> Send request</button>
+          <div class="response-box" id="response-4000"><span class="response-label">4000 · ERROR OUTPUT</span><span class="response-message">Click to demonstrate the CORS failure</span></div>
+        </article>
+
+        <div class="bridge" aria-hidden="true"><span>→</span><small>ALLOW</small></div>
+
+        <article class="request-card enabled-card">
+          <div class="card-top"><span class="step-number">02</span><span class="status-chip enabled">4001 · WORKING</span></div>
+          <div class="endpoint"><span class="method">GET</span><code>localhost:4001/profile</code></div>
+          <p class="card-copy">The API adds a matching <code>Access-Control-Allow-Origin</code> response header.</p>
+          <button class="run-button enabled-button" data-port="4001" data-mode="enabled"><span class="button-icon">↗</span> Send request</button>
+          <div class="response-box" id="response-4001"><span class="response-label">4001 · WORKING OUTPUT</span><span class="response-message">Click to demonstrate the successful response</span></div>
+        </article>
+      </section>
+
+      <section class="insight-row">
+        <div class="insight-heading"><span class="eyebrow">THE SIGNAL PATH</span><h2>What actually changed?</h2></div>
+        <div class="path-diagram">
+          <div class="node"><span class="node-icon">⌁</span><strong>Browser</strong><small>localhost:5173</small></div>
+          <span class="path-line blocked-line"><i></i><b>blocked</b></span>
+          <div class="node api-node"><span class="node-icon">◆</span><strong>API</strong><small>/profile</small></div>
+          <span class="path-line allowed-line"><i></i><b>allowed</b></span>
+          <div class="node"><span class="node-icon">✓</span><strong>Profile</strong><small>JSON payload</small></div>
+        </div>
+      </section>
+
+      <section class="security-strip">
+        <div><span class="eyebrow">SECURITY NOTE</span><h2>CORS is a browser permission, not an API lock.</h2></div>
+        <p>Allow only trusted origins and the methods your client needs. CORS does not authenticate callers or stop tools like curl; it controls which browser scripts may read a response.</p>
+      </section>
+
+      <footer><span>REST API / PROFILE</span><span>EXPRESS + CORS</span><span>LOCAL EXPERIMENT · 2026</span></footer>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

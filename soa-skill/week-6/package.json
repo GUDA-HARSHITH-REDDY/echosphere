@@ -1,0 +1,22 @@
+{
+  "name": "book-microservice",
+  "version": "1.0.0",
+  "description": "Independent Book Microservice for digital library system",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "book",
+    "microservice",
+    "soa",
+    "crud"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7",
+    "supertest": "^7.0.0"
+  }
+}
