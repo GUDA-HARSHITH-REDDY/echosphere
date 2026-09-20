@@ -41,3 +41,18 @@ yarn-error.log*
 next-env.d.ts
 
 /app/generated/prisma
+# Ignore bulky dataset images
+research/dataset/raw/
+research/dataset/processed/test/
+research/dataset/processed/train/
+research/dataset/processed/val/
+research/dataset/temp_extract/
+research/dataset/*.zip
+
+# Ignore large PyTorch weights
+research/models/*.pth
+
+# Ignore python venv
+venv/
+research/venv/
+__pycache__/
