@@ -7,6 +7,7 @@ import { uploadImage } from "../../lib/uploadImage"
 import { SkeletonList } from "../../components/Skeleton"
 import { EmptyState } from "../../components/EmptyState"
 import { AchievementToast } from "../../components/AchievementToast"
+import { AIWasteClassifierWidget } from "@/components/waste/AIWasteClassifierWidget"
 
 export default function WastePage() {
   const { user, loading } = useAuth()
@@ -71,11 +72,11 @@ export default function WastePage() {
     setLocating(true)
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setForm({
-          ...form,
+        setForm((prev) => ({
+          ...prev,
           latitude: position.coords.latitude.toFixed(6),
           longitude: position.coords.longitude.toFixed(6),
-        })
+        }))
         setLocating(false)
       },
       () => {
@@ -83,6 +84,16 @@ export default function WastePage() {
         setMessage("Couldn't get your location — enter it manually.")
       }
     )
+  }
+
+  const handleAiCategoryDetected = (detectedCategory: string) => {
+    const normalized = detectedCategory.toLowerCase()
+    setForm((prev) => ({
+      ...prev,
+      category: normalized,
+      // Provide an automatic helpful title if the user hasn't typed one yet
+      title: prev.title || `Reported ${detectedCategory} waste`,
+    }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -167,13 +178,22 @@ export default function WastePage() {
           required
         />
 
+        {/* EcoSphere AI Waste Classification Research Module */}
+        <AIWasteClassifierWidget onCategoryDetected={handleAiCategoryDetected} />
+
         <div className="flex gap-4">
           <select
             value={form.category}
             onChange={(e) => setForm({ ...form, category: e.target.value })}
-            className="border p-2 rounded flex-1"
+            className="border p-2 rounded flex-1 capitalize"
           >
+            {/* Standard & AI Research categories */}
             <option value="plastic">Plastic</option>
+            <option value="cardboard">Cardboard</option>
+            <option value="paper">Paper</option>
+            <option value="glass">Glass</option>
+            <option value="metal">Metal</option>
+            <option value="trash">General Trash</option>
             <option value="organic">Organic</option>
             <option value="e-waste">E-waste</option>
             <option value="construction">Construction Debris</option>
@@ -256,6 +276,11 @@ export default function WastePage() {
         >
           <option value="">All Categories</option>
           <option value="plastic">Plastic</option>
+          <option value="cardboard">Cardboard</option>
+          <option value="paper">Paper</option>
+          <option value="glass">Glass</option>
+          <option value="metal">Metal</option>
+          <option value="trash">Trash</option>
           <option value="organic">Organic</option>
           <option value="e-waste">E-waste</option>
           <option value="construction">Construction</option>

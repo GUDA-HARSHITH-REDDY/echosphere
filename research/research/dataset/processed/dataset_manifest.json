@@ -1,0 +1,45 @@
+{
+  "classes": [
+    "cardboard",
+    "glass",
+    "metal",
+    "paper",
+    "plastic",
+    "trash"
+  ],
+  "splits": {
+    "train": {
+      "total": 1763,
+      "class_counts": {
+        "cardboard": 282,
+        "glass": 351,
+        "metal": 286,
+        "paper": 412,
+        "plastic": 336,
+        "trash": 96
+      }
+    },
+    "val": {
+      "total": 378,
+      "class_counts": {
+        "cardboard": 60,
+        "glass": 75,
+        "metal": 62,
+        "paper": 88,
+        "plastic": 72,
+        "trash": 21
+      }
+    },
+    "test": {
+      "total": 378,
+      "class_counts": {
+        "cardboard": 61,
+        "glass": 75,
+        "metal": 61,
+        "paper": 89,
+        "plastic": 72,
+        "trash": 20
+      }
+    }
+  }
+}
