@@ -250,7 +250,7 @@ def run_baseline_experiment():
 
     torch.save(model.state_dict(), "research/models/resnet50_baseline.pth")
     with open(f"{RESULTS_DIR}/baseline_results.json", "w") as f:
-        json.dump({"test_accuracy": test_acc, "classification_report": report, "published_baseline": 0.728}, f, indent=2)
+        json.dump({"test_accuracy": test_acc, "classification_report": report}, f, indent=2)
 
     cm = confusion_matrix(y_true, y_pred)
     plt.figure(figsize=(7, 5))
@@ -424,22 +424,22 @@ def generate_comparisons():
     b_path = os.path.join(RESULTS_DIR, "baseline_results.json")
     i_path = os.path.join(RESULTS_DIR, "improved_results.json")
 
-    repro_base_acc = json.load(open(b_path))["test_accuracy"] if os.path.exists(b_path) else 0.728
-    improved_acc = json.load(open(i_path))["test_accuracy"] if os.path.exists(i_path) else 0.914
-    base_paper_acc = 0.728
+    if not os.path.exists(b_path) or not os.path.exists(i_path):
+        raise FileNotFoundError("Run both experiments before generating the comparison.")
+    repro_base_acc = json.load(open(b_path))["test_accuracy"]
+    improved_acc = json.load(open(i_path))["test_accuracy"]
 
     print("=" * 60)
     print("           EXPERIMENTAL RESULTS BENCHMARK")
     print("=" * 60)
-    print(f"2026 Base Paper ResNet50:    {base_paper_acc * 100:.2f}%")
     print(f"Reproduced Baseline:         {repro_base_acc * 100:.2f}%")
     print(f"EcoSphere Improved Model:    {improved_acc * 100:.2f}%")
     print("=" * 60)
 
-    labels = ['Base Paper', 'Reproduced', 'EcoSphere Improved']
-    vals = [base_paper_acc * 100, repro_base_acc * 100, improved_acc * 100]
+    labels = ['Reproduced Baseline', 'EcoSphere Improved']
+    vals = [repro_base_acc * 100, improved_acc * 100]
     plt.figure(figsize=(6, 4))
-    plt.bar(labels, vals, color=['#94a3b8', '#64748b', '#10b981'])
+    plt.bar(labels, vals, color=['#64748b', '#10b981'])
     plt.ylabel('Accuracy (%)')
     plt.ylim(0, 100)
     plt.title('Accuracy Comparison across Models')

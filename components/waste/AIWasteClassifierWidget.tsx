@@ -3,12 +3,19 @@ import React, { useState } from "react";
 import { Sparkles, AlertCircle, Loader2 } from "lucide-react";
 
 interface Props {
-  onCategoryDetected: (category: string) => void;
+  onPrediction: (result: ClassificationResult, file: File) => void | Promise<void>;
 }
 
-export const AIWasteClassifierWidget: React.FC<Props> = ({ onCategoryDetected }) => {
+interface ClassificationResult {
+  category: string;
+  confidence: number;
+  recommendation: string;
+  alternatives: { category: string; confidence: number }[];
+}
+
+export const AIWasteClassifierWidget: React.FC<Props> = ({ onPrediction }) => {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ category: string; confidence: number; recommendation: string } | null>(null);
+  const [result, setResult] = useState<ClassificationResult | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +32,7 @@ export const AIWasteClassifierWidget: React.FC<Props> = ({ onCategoryDetected })
       const data = await res.json();
       if (data.aiAssisted && data.data) {
         setResult(data.data);
-        onCategoryDetected(data.data.category);
+        await onPrediction(data.data, file);
       } else {
         setErrorMsg("AI Assistant is offline. Please choose category manually.");
       }
@@ -54,7 +61,19 @@ export const AIWasteClassifierWidget: React.FC<Props> = ({ onCategoryDetected })
           <div className="font-semibold text-slate-900">
             Detected: <span className="capitalize">{result.category}</span> ({(result.confidence * 100).toFixed(1)}%)
           </div>
+          {result.alternatives.length > 0 && (
+            <div className="mt-1 text-xs text-slate-600">
+              Other possible matches: {result.alternatives.map((match) =>
+                `${match.category} (${(match.confidence * 100).toFixed(1)}%)`
+              ).join(", ")}
+            </div>
+          )}
           <div className="text-xs text-slate-600 mt-1">{result.recommendation}</div>
+          <div className="text-xs text-slate-500 mt-1">
+            {result.confidence >= 0.65
+              ? "Review the suggested category before submitting; you can change it below."
+              : "Low confidence: choose the correct category manually before submitting."}
+          </div>
         </div>
       )}
       {errorMsg && (

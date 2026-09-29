@@ -53,6 +53,39 @@ const services = [
   },
 ]
 
+const projectLimitations = [
+  {
+    title: "Single-task focus",
+    description:
+      "The AI classifier predicts one waste category from an image; it does not manage the full process from identification through sorting and verified disposal.",
+  },
+  {
+    title: "Limited real-world generalization",
+    description:
+      "Performance has not yet been established across diverse locations, cameras, lighting conditions, contaminated materials, and recycling facilities.",
+  },
+  {
+    title: "High computational cost and deployment burden",
+    description:
+      "Model training and approaches such as test-time augmentation or ensembling can increase compute, latency, memory use, and deployment complexity.",
+  },
+  {
+    title: "Dataset dependence",
+    description:
+      "The model evaluation uses a 2,519-image TrashNet-based dataset with six categories, which may not represent waste streams in other communities or facilities.",
+  },
+  {
+    title: "Weak interpretability and explainability",
+    description:
+      "A predicted category and confidence score do not fully explain why the model made a prediction; reliable explanations remain future work.",
+  },
+  {
+    title: "No end-to-end sustainability workflow",
+    description:
+      "EcoSphere brings related services together, but a complete path from classification to confirmed disposal and measured environmental outcomes has not been validated end to end.",
+  },
+]
+
 async function getStats() {
   const [activities, wasteReports, recyclingCenters, users] = await Promise.all([
     prisma.activity.findMany(),
@@ -197,6 +230,29 @@ export default async function Home() {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="max-w-5xl mx-auto px-6 py-16">
+        <div className="border-t border-green-200 dark:border-gray-700 pt-8">
+          <p className="text-sm font-semibold uppercase tracking-wide text-green-700 dark:text-green-400">
+            Project transparency
+          </p>
+          <h2 className="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
+            Project Limitations
+          </h2>
+          <ul className="mt-6 grid gap-x-10 gap-y-6 md:grid-cols-2">
+            {projectLimitations.map((limitation) => (
+              <li key={limitation.title} className="border-t border-green-100 dark:border-gray-700 pt-4">
+                <h3 className="font-semibold text-[#065F46] dark:text-green-400">
+                  {limitation.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+                  {limitation.description}
+                </p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

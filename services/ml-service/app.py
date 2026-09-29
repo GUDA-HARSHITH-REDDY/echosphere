@@ -1,4 +1,6 @@
 import io
+import os
+from pathlib import Path
 import torch
 import torch.nn as nn
 from torchvision import models, transforms
@@ -27,13 +29,20 @@ model.fc = nn.Sequential(
     nn.Linear(model.fc.in_features, 512),
     nn.BatchNorm1d(512),
     nn.ReLU(),
-    nn.Dropout(0.3),
-    nn.Linear(512, len(CLASSES))
+    nn.Dropout(0.35),
+    nn.Linear(512, 256),
+    nn.BatchNorm1d(256),
+    nn.ReLU(),
+    nn.Dropout(0.25),
+    nn.Linear(256, len(CLASSES))
 )
 
-MODEL_PATH = "research/models/ecosphere_improved_best.pth"
-if os.path.exists(MODEL_PATH):
-    model.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))
+MODEL_PATH = Path(os.environ.get(
+    "ECOSPHERE_MODEL_PATH",
+    Path(__file__).resolve().parents[2] / "research" / "models" / "ecosphere_improved_best.pth",
+))
+if MODEL_PATH.is_file():
+    model.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE, weights_only=True))
     model.to(DEVICE)
     model.eval()
     print("[+] Model loaded successfully.")
@@ -50,6 +59,7 @@ infer_transforms = transforms.Compose([
 class ClassificationResponse(BaseModel):
     category: str
     confidence: float
+    alternatives: list[dict[str, float | str]]
     model_version: str
     recommendation: str
 
@@ -64,13 +74,22 @@ async def predict(file: UploadFile = File(...)):
     try:
         image = Image.open(io.BytesIO(await file.read())).convert("RGB")
         tensor = infer_transforms(image).unsqueeze(0).to(DEVICE)
-        with torch.no_grad():
+        with torch.inference_mode():
             probs = torch.softmax(model(tensor), dim=1)[0]
-            conf, idx = torch.max(probs, dim=0)
+            top_probs, top_indices = torch.topk(probs, k=min(3, len(CLASSES)))
+        conf = top_probs[0]
+        idx = top_indices[0]
         category = CLASSES[idx.item()]
         return ClassificationResponse(
             category=category,
             confidence=round(float(conf.item()), 4),
+            alternatives=[
+                {
+                    "category": CLASSES[class_idx.item()],
+                    "confidence": round(float(class_conf.item()), 4),
+                }
+                for class_conf, class_idx in zip(top_probs[1:], top_indices[1:])
+            ],
             model_version="EcoSphere-ResNet50-V2",
             recommendation=RECOMMENDATIONS.get(category, "Municipal waste stream.")
         )

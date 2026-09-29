@@ -21,6 +21,7 @@ export default function WastePage() {
   })
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const [reports, setReports] = useState<any[]>([])
   const [reportsLoading, setReportsLoading] = useState(true)
   const [message, setMessage] = useState("")
@@ -86,14 +87,29 @@ export default function WastePage() {
     )
   }
 
-  const handleAiCategoryDetected = (detectedCategory: string) => {
-    const normalized = detectedCategory.toLowerCase()
-    setForm((prev) => ({
-      ...prev,
-      category: normalized,
-      // Provide an automatic helpful title if the user hasn't typed one yet
-      title: prev.title || `Reported ${detectedCategory} waste`,
-    }))
+  const handleAiPrediction = async (
+    prediction: { category: string; confidence: number },
+    file: File
+  ) => {
+    if (prediction.confidence >= 0.65) {
+      const normalized = prediction.category.toLowerCase()
+      setForm((prev) => ({
+        ...prev,
+        category: normalized,
+        title: prev.title || `Reported ${prediction.category} waste`,
+      }))
+    } else {
+      setMessage("AI confidence is low. Choose the correct category manually before submitting.")
+    }
+
+    setUploading(true)
+    try {
+      setImageUrl(await uploadImage(file))
+    } catch {
+      setMessage("The photo could not be saved. You can still submit the report without it.")
+    } finally {
+      setUploading(false)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -105,38 +121,44 @@ export default function WastePage() {
       return
     }
 
-    const res = await fetch("/api/waste", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: user.id,
-        title: form.title,
-        description: form.description,
-        category: form.category,
-        priority: form.priority,
-        imageUrl: imageUrl,
-        latitude: parseFloat(form.latitude) || 0,
-        longitude: parseFloat(form.longitude) || 0,
-      }),
-    })
+    setSubmitting(true)
+    try {
+      const res = await fetch("/api/waste", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          title: form.title.trim(),
+          description: form.description.trim(),
+          category: form.category,
+          priority: form.priority,
+          imageUrl,
+          latitude: form.latitude ? Number(form.latitude) : 0,
+          longitude: form.longitude ? Number(form.longitude) : 0,
+        }),
+      })
 
-    const data = await res.json()
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        setMessage(data.error || "Unable to submit the report. Please try again.")
+        return
+      }
 
-    if (!res.ok) {
-      setMessage("Something went wrong")
-      return
+      if (data.agentReasoning) {
+        setMessage(`Report submitted — EcoAgent classified this as ${data.category}/${data.priority}. ${data.agentReasoning}`)
+      } else {
+        setMessage("Report submitted — thank you!")
+      }
+
+      setToast({ message: `Report "${form.title}" submitted successfully!`, points: 15 })
+      setForm({ title: "", description: "", latitude: "", longitude: "", category: "plastic", priority: "medium" })
+      setImageUrl(null)
+      loadReports()
+    } catch {
+      setMessage("Unable to reach the server. Check that EcoSphere is running and try again.")
+    } finally {
+      setSubmitting(false)
     }
-
-    if (data.agentReasoning) {
-      setMessage(`Report submitted — EcoAgent classified this as ${data.category}/${data.priority}. ${data.agentReasoning}`)
-    } else {
-      setMessage("Report submitted — thank you!")
-    }
-
-    setToast({ message: `Report "${form.title}" submitted successfully!`, points: 15 })
-    setForm({ title: "", description: "", latitude: "", longitude: "", category: "plastic", priority: "medium" })
-    setImageUrl(null)
-    loadReports()
   }
 
   const priorityColor: Record<string, string> = {
@@ -179,7 +201,7 @@ export default function WastePage() {
         />
 
         {/* EcoSphere AI Waste Classification Research Module */}
-        <AIWasteClassifierWidget onCategoryDetected={handleAiCategoryDetected} />
+        <AIWasteClassifierWidget onPrediction={handleAiPrediction} />
 
         <div className="flex gap-4">
           <select
@@ -253,9 +275,9 @@ export default function WastePage() {
         <button
           type="submit"
           className="bg-green-700 text-white py-2 rounded hover:bg-green-800"
-          disabled={uploading}
+          disabled={uploading || submitting}
         >
-          Submit Report
+          {submitting ? "Submitting..." : "Submit Report"}
         </button>
       </form>
 

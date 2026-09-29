@@ -1,5 +1,6 @@
 ﻿import os
 import json
+from pathlib import Path
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
@@ -17,13 +18,16 @@ EPOCHS = 8
 BATCH_SIZE = 32
 LR = 0.002
 NUM_CLASSES = 6
-PROCESSED_DIR = "research/dataset/processed"
-RESULTS_DIR = "research/results"
+RESEARCH_DIR = Path(__file__).resolve().parents[1]
+PROCESSED_DIR = RESEARCH_DIR / "dataset" / "processed"
+RESULTS_DIR = RESEARCH_DIR / "results"
+MODELS_DIR = RESEARCH_DIR / "models"
+FIGURES_DIR = RESEARCH_DIR / "figures"
 
 def run_baseline_experiment():
-    os.makedirs(RESULTS_DIR, exist_ok=True)
-    os.makedirs("research/models", exist_ok=True)
-    os.makedirs("research/figures", exist_ok=True)
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    MODELS_DIR.mkdir(parents=True, exist_ok=True)
+    FIGURES_DIR.mkdir(parents=True, exist_ok=True)
 
     eval_tf = transforms.Compose([
         transforms.Resize((224, 224)),
@@ -91,20 +95,27 @@ def run_baseline_experiment():
     test_acc = float(np.mean(y_true == y_pred))
     report = classification_report(y_true, y_pred, target_names=train_dataset.classes, output_dict=True, zero_division=0)
 
-    torch.save(model.state_dict(), "research/models/resnet50_baseline.pth")
-    with open(f"{RESULTS_DIR}/baseline_results.json", "w") as f:
-        json.dump({"test_accuracy": test_acc, "classification_report": report, "published_baseline": 0.728}, f, indent=2)
+    torch.save(model.state_dict(), MODELS_DIR / "resnet50_baseline.pth")
+    with open(RESULTS_DIR / "baseline_results.json", "w", encoding="utf-8") as f:
+        json.dump({
+            "test_accuracy": test_acc,
+            "classification_report": report,
+            "dataset": "TrashNet",
+            "dataset_manifest": str(PROCESSED_DIR / "dataset_manifest.json"),
+            "model": "ImageNet-pretrained ResNet50 with frozen backbone and linear head",
+            "seed": 42,
+        }, f, indent=2)
 
     cm = confusion_matrix(y_true, y_pred)
     plt.figure(figsize=(7, 5))
     sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=train_dataset.classes, yticklabels=train_dataset.classes)
     plt.title("Baseline ResNet50 Confusion Matrix")
     plt.tight_layout()
-    plt.savefig("research/figures/baseline_confusion_matrix.png", dpi=300)
+    plt.savefig(FIGURES_DIR / "baseline_confusion_matrix.png", dpi=300)
     plt.close()
 
     print(f"\n[+] Baseline Complete!")
-    print(f"[+] Baseline Measured Test Accuracy: {test_acc * 100:.2f}% (Base Paper published: 72.8%)")
+    print(f"[+] Baseline Measured Test Accuracy: {test_acc * 100:.2f}%")
 
 if __name__ == "__main__":
     run_baseline_experiment()
