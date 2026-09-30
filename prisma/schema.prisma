@@ -42,6 +42,8 @@ model WasteReport {
   latitude    Float
   longitude   Float
   status      String   @default("pending") // pending, resolved
+  estimatedWeightKg Float?
+  estimatedCo2AvoidedKg Float?
   department        String?
   slaDeadline       DateTime?
   citizenVerified   Boolean?

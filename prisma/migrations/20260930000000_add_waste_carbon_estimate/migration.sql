@@ -1,0 +1,3 @@
+ALTER TABLE "WasteReport"
+ADD COLUMN "estimatedWeightKg" DOUBLE PRECISION,
+ADD COLUMN "estimatedCo2AvoidedKg" DOUBLE PRECISION;

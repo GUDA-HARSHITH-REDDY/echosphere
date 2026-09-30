@@ -35,6 +35,8 @@ export async function GET(req: Request) {
         priority: true,
         status: true,
         createdAt: true,
+        estimatedWeightKg: true,
+        estimatedCo2AvoidedKg: true,
       },
     }),
     prisma.notification.count({ where: { userId, read: false } }),

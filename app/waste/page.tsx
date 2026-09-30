@@ -22,6 +22,8 @@ type WasteReport = {
   status: string
   createdAt: string
   imageUrl?: string | null
+  estimatedWeightKg?: number | null
+  estimatedCo2AvoidedKg?: number | null
 }
 
 type ClassificationWorkflow = {
@@ -41,6 +43,9 @@ async function downloadReportPdf(report: {
   latitude: number
   longitude: number
   createdAt: string
+  workflowId?: string
+  estimatedWeightKg?: number | null
+  estimatedCo2AvoidedKg?: number | null
 }) {
   const { jsPDF } = await import("jspdf")
   const pdf = new jsPDF()
@@ -57,8 +62,15 @@ async function downloadReportPdf(report: {
   pdf.text(`Status: ${report.status}`, 20, 78)
   pdf.text(`Submitted: ${new Date(report.createdAt).toLocaleString()}`, 20, 88)
   pdf.text(`Location: ${report.latitude}, ${report.longitude}`, 20, 98)
-  pdf.text("Description:", 20, 112)
-  pdf.text(descriptionLines, 20, 120)
+  if (report.workflowId) pdf.text(`Workflow ID: ${report.workflowId}`, 20, 108)
+  pdf.text(`Estimated weight: ${report.estimatedWeightKg ?? "Unknown"} kg`, 20, 118)
+  pdf.text(
+    `Potential CO2e avoided if recycled: ${report.estimatedCo2AvoidedKg ?? "Not available"} kg`,
+    20,
+    128
+  )
+  pdf.text("Description:", 20, 142)
+  pdf.text(descriptionLines, 20, 150)
   pdf.save(`waste-report-${report.id}.pdf`)
 }
 
@@ -71,6 +83,7 @@ export default function WastePage() {
     longitude: "",
     category: "plastic",
     priority: "medium",
+    estimatedWeightKg: "1",
   })
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
@@ -191,6 +204,7 @@ export default function WastePage() {
           category: form.category,
           priority: form.priority,
           imageUrl,
+          estimatedWeightKg: Number(form.estimatedWeightKg),
           classificationWorkflow,
           latitude: form.latitude ? Number(form.latitude) : 0,
           longitude: form.longitude ? Number(form.longitude) : 0,
@@ -209,14 +223,17 @@ export default function WastePage() {
       } catch {
         receiptError = " The report was saved, but its PDF could not be downloaded."
       }
+      const impactSummary = Number.isFinite(data.estimatedCo2AvoidedKg)
+        ? ` Estimated potential avoided emissions if recycled: ${Number(data.estimatedCo2AvoidedKg).toFixed(3)} kg CO2e for ${data.estimatedWeightKg} kg.`
+        : " A carbon estimate is unavailable for this material."
 
       if (data.agentReasoning) {
-        setMessage(`Report submitted — EcoAgent classified this as ${data.category}/${data.priority}. ${data.agentReasoning}${receiptError}`)
+        setMessage(`Report submitted — EcoAgent classified this as ${data.category}/${data.priority}. ${data.agentReasoning}${impactSummary}${receiptError}`)
       } else {
-        setMessage(`Report submitted — thank you!${receiptError}`)
+        setMessage(`Report submitted — thank you!${impactSummary}${receiptError}`)
       }
       setToast({ message: `Report "${form.title}" submitted successfully!`, points: 15 })
-      setForm({ title: "", description: "", latitude: "", longitude: "", category: "plastic", priority: "medium" })
+      setForm({ title: "", description: "", latitude: "", longitude: "", category: "plastic", priority: "medium", estimatedWeightKg: "1" })
       setImageUrl(null)
       setClassificationWorkflow(null)
       loadReports()
@@ -271,6 +288,7 @@ export default function WastePage() {
           onPrediction={handleAiPrediction}
           onFailure={handleAiFailure}
           location={{ latitude: form.latitude, longitude: form.longitude }}
+          weightKg={form.estimatedWeightKg}
         />
 
         <div className="flex gap-4">
@@ -302,6 +320,19 @@ export default function WastePage() {
             <option value="high">High Priority</option>
           </select>
         </div>
+
+        <label className="text-sm text-gray-600">
+          Estimated waste weight (kg)
+          <input
+            type="number"
+            min="0.1"
+            step="0.1"
+            value={form.estimatedWeightKg}
+            onChange={(e) => setForm({ ...form, estimatedWeightKg: e.target.value })}
+            className="border p-2 rounded w-full mt-1"
+            required
+          />
+        </label>
 
         <div>
           <label className="text-sm text-gray-600 block mb-1">Photo (optional)</label>
@@ -404,6 +435,11 @@ export default function WastePage() {
                   <p className="text-xs text-gray-400 mt-2">
                     {r.category} • Status: {r.status} • {new Date(r.createdAt).toLocaleDateString()}
                   </p>
+                  {r.estimatedCo2AvoidedKg != null && (
+                    <p className="text-xs text-green-700 mt-1">
+                      Potential CO2e avoided if recycled: {r.estimatedCo2AvoidedKg} kg
+                    </p>
+                  )}
                 </div>
                 <span className={`text-xs px-2 py-1 rounded capitalize shrink-0 ${priorityColor[r.priority]}`}>
                   {r.priority}

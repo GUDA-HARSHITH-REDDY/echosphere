@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
       const result = (await mlResponse.json()) as WastePrediction;
       const latitudeValue = formData.get("latitude");
       const longitudeValue = formData.get("longitude");
+      const weightKg = Number(formData.get("weightKg") || 1);
       const latitude = latitudeValue === null ? Number.NaN : Number(latitudeValue);
       const longitude = longitudeValue === null ? Number.NaN : Number(longitudeValue);
       const prediction = await orchestrateWastePrediction(
@@ -38,7 +39,8 @@ export async function POST(req: NextRequest) {
         workflowId,
         Number.isFinite(latitude) && Number.isFinite(longitude)
           ? { latitude, longitude }
-          : undefined
+          : undefined,
+        weightKg
       );
 
       return NextResponse.json({ success: true, aiAssisted: true, workflowId, data: prediction });

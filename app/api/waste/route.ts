@@ -2,6 +2,7 @@ import { prisma } from "../../../lib/prisma"
 import { NextResponse } from "next/server"
 import { randomUUID } from "node:crypto"
 import { classifyReport, checkAndProposeEvent } from "../../../lib/ecoAgent"
+import { estimateWasteCarbonImpact } from "../../../lib/wasteOrchestrator"
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
@@ -70,6 +71,13 @@ export async function POST(req: Request) {
       // Keep the manually selected values when the optional agent is unavailable.
     }
 
+    const requestedWeightKg = Number(body.estimatedWeightKg)
+    const estimatedWeightKg =
+      Number.isFinite(requestedWeightKg) && requestedWeightKg > 0 && requestedWeightKg <= 100000
+        ? requestedWeightKg
+        : 1
+    const carbonEstimate = estimateWasteCarbonImpact(category, estimatedWeightKg)
+
     const report = await prisma.wasteReport.create({
       data: {
         userId,
@@ -81,9 +89,19 @@ export async function POST(req: Request) {
         city: body.city || null,
         latitude,
         longitude,
+        estimatedWeightKg: carbonEstimate.estimatedWeightKg,
+        estimatedCo2AvoidedKg: carbonEstimate.estimatedCo2AvoidedKg,
       },
     })
 
+    const prediction = classificationWorkflow?.prediction
+    const serviceRoute = prediction?.serviceRoute
+    const centerSuggestion = serviceRoute?.centers[0]
+    const carbonNotification =
+      carbonEstimate.estimatedCo2AvoidedKg === null
+        ? "A carbon estimate is unavailable for this material."
+        : `Estimated potential avoided emissions if recycled: ${carbonEstimate.estimatedCo2AvoidedKg} kg CO2e.`
+    const reportNotification = `Waste report received: "${title}". ${carbonNotification}${centerSuggestion ? ` Suggested center: ${centerSuggestion.name}, ${centerSuggestion.address}.` : ""}`
     const sideEffects = await Promise.allSettled([
       prisma.greenPoints.upsert({
         where: { userId },
@@ -93,10 +111,9 @@ export async function POST(req: Request) {
       prisma.notification.create({
         data: { userId, message: "You earned 15 Green Points!" },
       }),
+      prisma.notification.create({ data: { userId, message: reportNotification } }),
     ])
 
-    const prediction = classificationWorkflow?.prediction
-    const serviceRoute = prediction?.serviceRoute
     let workflowAuditStatus = "completed"
     try {
       await prisma.agentLog.create({
@@ -129,6 +146,7 @@ export async function POST(req: Request) {
                 }
               : null,
             failure: classificationWorkflow?.failure || null,
+            carbonEstimate,
           },
           status:
             classificationWorkflow?.status === "fallback"
@@ -156,6 +174,7 @@ export async function POST(req: Request) {
       workflowAuditStatus,
       rewardsGranted: sideEffects[0].status === "fulfilled",
       rewardNotificationCreated: sideEffects[1].status === "fulfilled",
+      reportNotificationCreated: sideEffects[2].status === "fulfilled",
     })
   } catch (error) {
     console.error("Waste report submission failed:", error)

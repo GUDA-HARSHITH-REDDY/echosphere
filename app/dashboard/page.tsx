@@ -24,6 +24,8 @@ type DashboardData = {
     category: string
     status: string
     createdAt: string
+    estimatedWeightKg: number | null
+    estimatedCo2AvoidedKg: number | null
   }>
 }
 
@@ -100,6 +102,12 @@ export default function DashboardPage() {
                 <p className="text-xs text-gray-400 mt-2">
                   {report.category} · {new Date(report.createdAt).toLocaleDateString()}
                 </p>
+                {report.estimatedCo2AvoidedKg !== null && (
+                  <p className="text-xs text-green-700 mt-1">
+                    Potential CO2e avoided if recycled: {report.estimatedCo2AvoidedKg} kg
+                    {report.estimatedWeightKg !== null && ` at ${report.estimatedWeightKg} kg waste`}
+                  </p>
+                )}
               </div>
               <span className="text-xs capitalize shrink-0">{report.status}</span>
             </div>

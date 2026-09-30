@@ -2,6 +2,32 @@ import { prisma } from "./prisma"
 
 export const WASTE_CONFIDENCE_THRESHOLD = 0.65
 
+const CO2_AVOIDANCE_FACTORS: Record<string, number> = {
+  cardboard: 0.9,
+  glass: 0.3,
+  metal: 4.0,
+  paper: 0.9,
+  plastic: 1.5,
+}
+
+export function estimateWasteCarbonImpact(category: string, weightKg: number) {
+  const safeWeightKg = Number.isFinite(weightKg) && weightKg > 0 ? weightKg : 1
+  const factorKgCo2ePerKg = CO2_AVOIDANCE_FACTORS[category.toLowerCase()] ?? null
+
+  return {
+    estimatedWeightKg: Number(safeWeightKg.toFixed(2)),
+    factorKgCo2ePerKg,
+    estimatedCo2AvoidedKg:
+      factorKgCo2ePerKg === null
+        ? null
+        : Number((safeWeightKg * factorKgCo2ePerKg).toFixed(3)),
+    basis:
+      factorKgCo2ePerKg === null
+        ? "No estimate is available for this material."
+        : `Illustrative estimate if recycled, using ${factorKgCo2ePerKg} kg CO2e avoided per kg of ${category.toLowerCase()}.`,
+  }
+}
+
 export type WastePrediction = {
   category: string
   confidence: number
@@ -40,7 +66,8 @@ function distanceInKm(
 export async function orchestrateWastePrediction(
   prediction: WastePrediction,
   workflowId: string,
-  location?: { latitude?: number; longitude?: number }
+  location?: { latitude?: number; longitude?: number },
+  weightKg = 1
 ) {
   const mapping = MATERIAL_ROUTES[prediction.category.toLowerCase()]
   if (!mapping) throw new Error(`Unsupported classifier material: ${prediction.category}`)
@@ -143,6 +170,7 @@ export async function orchestrateWastePrediction(
     mappedCategory: mapping.category,
     confidenceThreshold: WASTE_CONFIDENCE_THRESHOLD,
     confidenceAccepted,
+    carbonEstimate: estimateWasteCarbonImpact(mapping.category, weightKg),
     serviceRoute,
   }
 }

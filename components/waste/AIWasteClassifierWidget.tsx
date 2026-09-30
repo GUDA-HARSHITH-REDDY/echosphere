@@ -6,6 +6,7 @@ interface Props {
   onPrediction: (result: ClassificationResult, file: File) => void | Promise<void>;
   onFailure?: (failure: ClassificationFailure) => void;
   location?: { latitude: string; longitude: string };
+  weightKg: string;
 }
 
 export interface ClassificationResult {
@@ -18,6 +19,12 @@ export interface ClassificationResult {
   confidenceThreshold: number;
   confidenceAccepted: boolean;
   model_version: string;
+  carbonEstimate: {
+    estimatedWeightKg: number;
+    factorKgCo2ePerKg: number | null;
+    estimatedCo2AvoidedKg: number | null;
+    basis: string;
+  };
   serviceRoute: {
     service: string;
     label: string;
@@ -40,7 +47,7 @@ export interface ClassificationFailure {
   message?: string;
 }
 
-export const AIWasteClassifierWidget: React.FC<Props> = ({ onPrediction, onFailure, location }) => {
+export const AIWasteClassifierWidget: React.FC<Props> = ({ onPrediction, onFailure, location, weightKg }) => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ClassificationResult | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -57,6 +64,7 @@ export const AIWasteClassifierWidget: React.FC<Props> = ({ onPrediction, onFailu
       fd.append("latitude", location.latitude);
       fd.append("longitude", location.longitude);
     }
+    fd.append("weightKg", weightKg);
 
     try {
       const res = await fetch("/api/waste/classify", { method: "POST", body: fd });
@@ -106,12 +114,26 @@ export const AIWasteClassifierWidget: React.FC<Props> = ({ onPrediction, onFailu
             </div>
           )}
           <div className="text-xs text-slate-600 mt-1">{result.recommendation}</div>
+          <div className="text-xs text-slate-700 mt-1">
+            {result.carbonEstimate.estimatedCo2AvoidedKg === null
+              ? result.carbonEstimate.basis
+              : Number(weightKg) > 0
+                ? `Illustrative potential avoided emissions: ${(result.carbonEstimate.factorKgCo2ePerKg! * Number(weightKg)).toFixed(3)} kg CO2e for ${weightKg} kg if recycled.`
+                : "Enter a positive weight to estimate potential avoided emissions."}
+          </div>
           <div className="text-xs text-slate-700 mt-2">
             Routed to: <span className="font-medium">{result.serviceRoute.label}</span>
-            {result.serviceRoute.centers.length > 0 && (
-              <span> · {result.serviceRoute.centers.map((center) => center.name).join(", ")}</span>
-            )}
           </div>
+          {result.serviceRoute.centers.length > 0 && (
+            <ul className="text-xs text-slate-600 mt-1 list-disc pl-4">
+              {result.serviceRoute.centers.map((center) => (
+                <li key={center.id}>
+                  {center.name} · {center.address}{center.city ? `, ${center.city}` : ""}
+                  {center.distanceKm !== undefined && ` · ${center.distanceKm.toFixed(1)} km`}
+                </li>
+              ))}
+            </ul>
+          )}
           {result.serviceRoute.fallbackReason && (
             <div className="text-xs text-amber-700 mt-1">{result.serviceRoute.fallbackReason}</div>
           )}
