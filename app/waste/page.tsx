@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useAuth } from "../../lib/useAuth"
 import Loading from "../../components/Loading"
 import { uploadImage } from "../../lib/uploadImage"
@@ -8,6 +8,48 @@ import { SkeletonList } from "../../components/Skeleton"
 import { EmptyState } from "../../components/EmptyState"
 import { AchievementToast } from "../../components/AchievementToast"
 import { AIWasteClassifierWidget } from "@/components/waste/AIWasteClassifierWidget"
+
+type WasteReport = {
+  id: string
+  title: string
+  description: string
+  category: string
+  priority: string
+  status: string
+  createdAt: string
+  imageUrl?: string | null
+}
+
+async function downloadReportPdf(report: {
+  id: string
+  title: string
+  description: string
+  category: string
+  priority: string
+  status: string
+  latitude: number
+  longitude: number
+  createdAt: string
+}) {
+  const { jsPDF } = await import("jspdf")
+  const pdf = new jsPDF()
+  const pageWidth = pdf.internal.pageSize.getWidth()
+  const descriptionLines = pdf.splitTextToSize(report.description, pageWidth - 40)
+
+  pdf.setFontSize(18)
+  pdf.text("EcoSphere Waste Report", 20, 24)
+  pdf.setFontSize(11)
+  pdf.text(`Report ID: ${report.id}`, 20, 38)
+  pdf.text(`Title: ${report.title}`, 20, 48)
+  pdf.text(`Category: ${report.category}`, 20, 58)
+  pdf.text(`Priority: ${report.priority}`, 20, 68)
+  pdf.text(`Status: ${report.status}`, 20, 78)
+  pdf.text(`Submitted: ${new Date(report.createdAt).toLocaleString()}`, 20, 88)
+  pdf.text(`Location: ${report.latitude}, ${report.longitude}`, 20, 98)
+  pdf.text("Description:", 20, 112)
+  pdf.text(descriptionLines, 20, 120)
+  pdf.save(`waste-report-${report.id}.pdf`)
+}
 
 export default function WastePage() {
   const { user, loading } = useAuth()
@@ -22,15 +64,14 @@ export default function WastePage() {
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
-  const [reports, setReports] = useState<any[]>([])
+  const [reports, setReports] = useState<WasteReport[]>([])
   const [reportsLoading, setReportsLoading] = useState(true)
   const [message, setMessage] = useState("")
   const [locating, setLocating] = useState(false)
   const [filters, setFilters] = useState({ search: "", category: "", status: "" })
   const [toast, setToast] = useState<{ message: string; points: number } | null>(null)
 
-  const loadReports = () => {
-    setReportsLoading(true)
+  const loadReports = useCallback(() => {
     const params = new URLSearchParams()
     if (filters.search) params.set("search", filters.search)
     if (filters.category) params.set("category", filters.category)
@@ -42,11 +83,11 @@ export default function WastePage() {
         setReports(data)
         setReportsLoading(false)
       })
-  }
+  }, [filters])
 
   useEffect(() => {
     loadReports()
-  }, [filters])
+  }, [loadReports])
 
   if (loading) return <Loading />
 
@@ -144,10 +185,17 @@ export default function WastePage() {
         return
       }
 
+      let receiptError = ""
+      try {
+        await downloadReportPdf(data)
+      } catch {
+        receiptError = " The report was saved, but its PDF could not be downloaded."
+      }
+
       if (data.agentReasoning) {
-        setMessage(`Report submitted — EcoAgent classified this as ${data.category}/${data.priority}. ${data.agentReasoning}`)
+        setMessage(`Report submitted — EcoAgent classified this as ${data.category}/${data.priority}. ${data.agentReasoning}${receiptError}`)
       } else {
-        setMessage("Report submitted — thank you!")
+        setMessage(`Report submitted — thank you!${receiptError}`)
       }
 
       setToast({ message: `Report "${form.title}" submitted successfully!`, points: 15 })

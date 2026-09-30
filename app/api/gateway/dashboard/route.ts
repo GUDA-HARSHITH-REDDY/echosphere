@@ -15,6 +15,7 @@ export async function GET(req: Request) {
     greenPoints,
     eventsJoined,
     wasteReportsCount,
+    recentWasteReports,
     unreadNotifications,
   ] = await Promise.all([
     prisma.user.findUnique({ where: { id: userId } }),
@@ -22,6 +23,20 @@ export async function GET(req: Request) {
     prisma.greenPoints.findUnique({ where: { userId } }),
     prisma.eventParticipant.count({ where: { userId } }),
     prisma.wasteReport.count({ where: { userId } }),
+    prisma.wasteReport.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        category: true,
+        priority: true,
+        status: true,
+        createdAt: true,
+      },
+    }),
     prisma.notification.count({ where: { userId, read: false } }),
   ])
 
@@ -33,6 +48,7 @@ export async function GET(req: Request) {
     greenPoints: greenPoints?.points || 0,
     eventsJoined,
     wasteReportsCount,
+    recentWasteReports,
     unreadNotifications,
     recentActivities: activities.slice(0, 5),
   })

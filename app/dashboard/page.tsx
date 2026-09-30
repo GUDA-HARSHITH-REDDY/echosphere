@@ -4,9 +4,32 @@ import { useEffect, useState } from "react"
 import { useAuth } from "../../lib/useAuth"
 import Loading from "../../components/Loading"
 
+type DashboardData = {
+  name: string | null
+  totalCarbonSaved: number
+  greenPoints: number
+  eventsJoined: number
+  wasteReportsCount: number
+  unreadNotifications: number
+  recentActivities: Array<{
+    id: string
+    type: string
+    value: number
+    co2Kg: number
+  }>
+  recentWasteReports: Array<{
+    id: string
+    title: string
+    description: string
+    category: string
+    status: string
+    createdAt: string
+  }>
+}
+
 export default function DashboardPage() {
   const { user, loading } = useAuth()
-  const [data, setData] = useState<any>(null)
+  const [data, setData] = useState<DashboardData | null>(null)
 
   useEffect(() => {
     if (!user) return
@@ -22,7 +45,7 @@ export default function DashboardPage() {
       <h1 className="text-2xl font-bold text-green-800 mb-1">
         Welcome back, {data.name?.split(" ")[0]}
       </h1>
-      <p className="text-gray-500 mb-8">Here's your EcoSphere summary.</p>
+      <p className="text-gray-500 mb-8">Here&apos;s your EcoSphere summary.</p>
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
         <div className="bg-green-50 rounded-lg p-4 text-center">
@@ -54,11 +77,32 @@ export default function DashboardPage() {
         {data.recentActivities.length === 0 && (
           <p className="text-gray-500 text-sm">No activities logged yet.</p>
         )}
-        {data.recentActivities.map((a: any) => (
+        {data.recentActivities.map((a) => (
           <div key={a.id} className="border p-3 rounded flex justify-between w-full">
             <span className="capitalize">{a.type}</span>
             <span>{a.value} units</span>
             <span className="text-green-700 font-semibold">{a.co2Kg} kg CO₂</span>
+          </div>
+        ))}
+      </div>
+
+      <h2 className="font-semibold mt-8 mb-3">Recent Waste Reports</h2>
+      <div className="flex flex-col gap-3">
+        {data.recentWasteReports.length === 0 && (
+          <p className="text-gray-500 text-sm">No waste reports submitted yet.</p>
+        )}
+        {data.recentWasteReports.map((report) => (
+          <div key={report.id} className="border p-3 rounded">
+            <div className="flex justify-between items-start gap-4">
+              <div>
+                <h3 className="font-semibold">{report.title}</h3>
+                <p className="text-sm text-gray-600 mt-1">{report.description}</p>
+                <p className="text-xs text-gray-400 mt-2">
+                  {report.category} · {new Date(report.createdAt).toLocaleDateString()}
+                </p>
+              </div>
+              <span className="text-xs capitalize shrink-0">{report.status}</span>
+            </div>
           </div>
         ))}
       </div>
