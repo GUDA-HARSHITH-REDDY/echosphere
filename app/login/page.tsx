@@ -7,6 +7,7 @@ export default function LoginPage() {
   const router = useRouter()
   const [form, setForm] = useState({ email: "", password: "" })
   const [error, setError] = useState("")
+  const [submitting, setSubmitting] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -15,25 +16,35 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
+    setSubmitting(true)
 
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    })
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email.trim().toLowerCase(), password: form.password }),
+      })
 
-    const data = await res.json()
+      const data = await res.json().catch(() => ({}))
 
-    if (!res.ok) {
-      setError(data.error || "Something went wrong")
-      return
+      if (!res.ok) {
+        setError(data.error || "Unable to sign in. Please try again.")
+        return
+      }
+
+      if (!data.token || !data.user) {
+        setError("The login service returned an invalid response. Please try again.")
+        return
+      }
+
+      localStorage.setItem("token", data.token)
+      localStorage.setItem("user", JSON.stringify(data.user))
+      router.push("/")
+    } catch {
+      setError("Could not reach the login service. Check your connection and try again.")
+    } finally {
+      setSubmitting(false)
     }
-
-    // save the token so the browser remembers the user is logged in
-    localStorage.setItem("token", data.token)
-    localStorage.setItem("user", JSON.stringify(data.user))
-
-    router.push("/")
   }
 
   return (
@@ -65,8 +76,9 @@ export default function LoginPage() {
         <button
           type="submit"
           className="bg-green-700 text-white py-2 rounded hover:bg-green-800"
+          disabled={submitting}
         >
-          Login
+          {submitting ? "Signing in..." : "Login"}
         </button>
       </form>
     </main>
