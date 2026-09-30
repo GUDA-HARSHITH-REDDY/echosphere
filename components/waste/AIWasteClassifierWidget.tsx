@@ -4,16 +4,43 @@ import { Sparkles, AlertCircle, Loader2 } from "lucide-react";
 
 interface Props {
   onPrediction: (result: ClassificationResult, file: File) => void | Promise<void>;
+  onFailure?: (failure: ClassificationFailure) => void;
+  location?: { latitude: string; longitude: string };
 }
 
-interface ClassificationResult {
+export interface ClassificationResult {
   category: string;
   confidence: number;
   recommendation: string;
   alternatives: { category: string; confidence: number }[];
+  workflowId: string;
+  mappedCategory: string;
+  confidenceThreshold: number;
+  confidenceAccepted: boolean;
+  model_version: string;
+  serviceRoute: {
+    service: string;
+    label: string;
+    status: "routed" | "fallback";
+    centers: Array<{
+      id: string;
+      name: string;
+      address: string;
+      city: string | null;
+      type: string;
+      distanceKm?: number;
+    }>;
+    fallbackReason?: string;
+  };
 }
 
-export const AIWasteClassifierWidget: React.FC<Props> = ({ onPrediction }) => {
+export interface ClassificationFailure {
+  workflowId?: string;
+  failure?: string;
+  message?: string;
+}
+
+export const AIWasteClassifierWidget: React.FC<Props> = ({ onPrediction, onFailure, location }) => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ClassificationResult | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -26,6 +53,10 @@ export const AIWasteClassifierWidget: React.FC<Props> = ({ onPrediction }) => {
     setErrorMsg(null);
     const fd = new FormData();
     fd.append("file", file);
+    if (location?.latitude && location.longitude) {
+      fd.append("latitude", location.latitude);
+      fd.append("longitude", location.longitude);
+    }
 
     try {
       const res = await fetch("/api/waste/classify", { method: "POST", body: fd });
@@ -34,10 +65,12 @@ export const AIWasteClassifierWidget: React.FC<Props> = ({ onPrediction }) => {
         setResult(data.data);
         await onPrediction(data.data, file);
       } else {
-        setErrorMsg("AI Assistant is offline. Please choose category manually.");
+        setErrorMsg(data.message || data.error || "AI Assistant is offline. Please choose category manually.");
+        onFailure?.({ ...data, failure: data.failure || data.error });
       }
     } catch {
       setErrorMsg("Error connecting to AI service.");
+      onFailure?.({ message: "Could not connect to the classifier service." });
     } finally {
       setLoading(false);
     }
@@ -61,6 +94,10 @@ export const AIWasteClassifierWidget: React.FC<Props> = ({ onPrediction }) => {
           <div className="font-semibold text-slate-900">
             Detected: <span className="capitalize">{result.category}</span> ({(result.confidence * 100).toFixed(1)}%)
           </div>
+          <div className="text-xs text-slate-600 mt-1">
+            Report category: <span className="capitalize">{result.mappedCategory}</span>
+            {result.confidenceAccepted ? " · Prediction accepted" : " · Manual category required"}
+          </div>
           {result.alternatives.length > 0 && (
             <div className="mt-1 text-xs text-slate-600">
               Other possible matches: {result.alternatives.map((match) =>
@@ -69,8 +106,17 @@ export const AIWasteClassifierWidget: React.FC<Props> = ({ onPrediction }) => {
             </div>
           )}
           <div className="text-xs text-slate-600 mt-1">{result.recommendation}</div>
+          <div className="text-xs text-slate-700 mt-2">
+            Routed to: <span className="font-medium">{result.serviceRoute.label}</span>
+            {result.serviceRoute.centers.length > 0 && (
+              <span> · {result.serviceRoute.centers.map((center) => center.name).join(", ")}</span>
+            )}
+          </div>
+          {result.serviceRoute.fallbackReason && (
+            <div className="text-xs text-amber-700 mt-1">{result.serviceRoute.fallbackReason}</div>
+          )}
           <div className="text-xs text-slate-500 mt-1">
-            {result.confidence >= 0.65
+            {result.confidenceAccepted
               ? "Review the suggested category before submitting; you can change it below."
               : "Low confidence: choose the correct category manually before submitting."}
           </div>

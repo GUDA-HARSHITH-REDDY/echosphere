@@ -1,5 +1,6 @@
 import { prisma } from "../../../lib/prisma"
 import { NextResponse } from "next/server"
+import { randomUUID } from "node:crypto"
 import { classifyReport, checkAndProposeEvent } from "../../../lib/ecoAgent"
 
 export async function GET(req: Request) {
@@ -31,6 +32,14 @@ export async function POST(req: Request) {
     const userId = typeof body.userId === "string" ? body.userId : ""
     const latitude = Number(body.latitude)
     const longitude = Number(body.longitude)
+    const classificationWorkflow =
+      body.classificationWorkflow && typeof body.classificationWorkflow === "object"
+        ? body.classificationWorkflow
+        : null
+    const workflowId =
+      typeof classificationWorkflow?.workflowId === "string" && classificationWorkflow.workflowId.length <= 100
+        ? classificationWorkflow.workflowId
+        : randomUUID()
 
     if (!userId || !title || !description) {
       return NextResponse.json(
@@ -75,20 +84,79 @@ export async function POST(req: Request) {
       },
     })
 
-    await prisma.greenPoints.upsert({
-      where: { userId },
-      update: { points: { increment: 15 } },
-      create: { userId, points: 15 },
-    })
+    const sideEffects = await Promise.allSettled([
+      prisma.greenPoints.upsert({
+        where: { userId },
+        update: { points: { increment: 15 } },
+        create: { userId, points: 15 },
+      }),
+      prisma.notification.create({
+        data: { userId, message: "You earned 15 Green Points!" },
+      }),
+    ])
 
-    await prisma.notification.create({
-      data: { userId, message: "You earned 15 Green Points!" },
-    })
+    const prediction = classificationWorkflow?.prediction
+    const serviceRoute = prediction?.serviceRoute
+    let workflowAuditStatus = "completed"
+    try {
+      await prisma.agentLog.create({
+        data: {
+          userId,
+          agentName: "waste_orchestrator",
+          action: "classify_and_route_waste",
+          input: `${title}\n${description}`,
+          decision: `${category} -> ${serviceRoute?.service || "waste_report_review"}`,
+          reasoning: prediction?.recommendation || classificationWorkflow?.failure || "Manual report workflow.",
+          toolCalls: {
+            workflowId,
+            classifierStatus: classificationWorkflow?.status || "not_run",
+            prediction: prediction
+              ? {
+                  material: prediction.category,
+                  mappedCategory: prediction.mappedCategory,
+                  confidence: prediction.confidence,
+                  confidenceThreshold: prediction.confidenceThreshold,
+                  confidenceAccepted: prediction.confidenceAccepted,
+                  modelVersion: prediction.model_version,
+                }
+              : null,
+            serviceRoute: serviceRoute
+              ? {
+                  service: serviceRoute.service,
+                  status: serviceRoute.status,
+                  centerIds: serviceRoute.centers.map((center: { id: string }) => center.id),
+                  fallbackReason: serviceRoute.fallbackReason || null,
+                }
+              : null,
+            failure: classificationWorkflow?.failure || null,
+          },
+          status:
+            classificationWorkflow?.status === "fallback"
+              ? "fallback"
+              : prediction && !prediction.confidenceAccepted
+                ? "manual_review"
+                : serviceRoute?.status === "fallback"
+                  ? "service_fallback"
+                : "completed",
+          wasteReportId: report.id,
+        },
+      })
+    } catch (error) {
+      workflowAuditStatus = "failed"
+      console.error("Waste workflow audit failed:", error)
+    }
 
     // AGENT STEP 2: autonomously check for a cluster without blocking the response.
     checkAndProposeEvent(body.city, category).catch(() => {})
 
-    return NextResponse.json({ ...report, agentReasoning })
+    return NextResponse.json({
+      ...report,
+      agentReasoning,
+      workflowId,
+      workflowAuditStatus,
+      rewardsGranted: sideEffects[0].status === "fulfilled",
+      rewardNotificationCreated: sideEffects[1].status === "fulfilled",
+    })
   } catch (error) {
     console.error("Waste report submission failed:", error)
     return NextResponse.json(

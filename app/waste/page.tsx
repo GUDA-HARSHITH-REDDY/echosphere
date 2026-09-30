@@ -7,7 +7,11 @@ import { uploadImage } from "../../lib/uploadImage"
 import { SkeletonList } from "../../components/Skeleton"
 import { EmptyState } from "../../components/EmptyState"
 import { AchievementToast } from "../../components/AchievementToast"
-import { AIWasteClassifierWidget } from "@/components/waste/AIWasteClassifierWidget"
+import {
+  AIWasteClassifierWidget,
+  type ClassificationFailure,
+  type ClassificationResult,
+} from "@/components/waste/AIWasteClassifierWidget"
 
 type WasteReport = {
   id: string
@@ -18,6 +22,13 @@ type WasteReport = {
   status: string
   createdAt: string
   imageUrl?: string | null
+}
+
+type ClassificationWorkflow = {
+  workflowId: string
+  status: "classified" | "fallback"
+  prediction?: ClassificationResult
+  failure?: string
 }
 
 async function downloadReportPdf(report: {
@@ -70,6 +81,7 @@ export default function WastePage() {
   const [locating, setLocating] = useState(false)
   const [filters, setFilters] = useState({ search: "", category: "", status: "" })
   const [toast, setToast] = useState<{ message: string; points: number } | null>(null)
+  const [classificationWorkflow, setClassificationWorkflow] = useState<ClassificationWorkflow | null>(null)
 
   const loadReports = useCallback(() => {
     const params = new URLSearchParams()
@@ -105,6 +117,36 @@ export default function WastePage() {
     setUploading(false)
   }
 
+  const handleAiPrediction = async (prediction: ClassificationResult, file: File) => {
+    setClassificationWorkflow({ workflowId: prediction.workflowId, status: "classified", prediction })
+    if (prediction.confidenceAccepted) {
+      setForm((prev) => ({
+        ...prev,
+        category: prediction.mappedCategory,
+        title: prev.title || `Reported ${prediction.mappedCategory} waste`,
+      }))
+    } else {
+      setMessage("AI confidence is low. Choose the correct category manually before submitting.")
+    }
+
+    setUploading(true)
+    try {
+      setImageUrl(await uploadImage(file))
+    } catch {
+      setMessage("The photo could not be saved. You can still submit the report without it.")
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const handleAiFailure = (failure: ClassificationFailure) => {
+    setClassificationWorkflow({
+      workflowId: failure.workflowId || crypto.randomUUID(),
+      status: "fallback",
+      failure: failure.failure || failure.message || "AI classification failed.",
+    })
+  }
+
   const handleUseLocation = () => {
     setMessage("")
     if (!navigator.geolocation) {
@@ -128,31 +170,6 @@ export default function WastePage() {
     )
   }
 
-  const handleAiPrediction = async (
-    prediction: { category: string; confidence: number },
-    file: File
-  ) => {
-    if (prediction.confidence >= 0.65) {
-      const normalized = prediction.category.toLowerCase()
-      setForm((prev) => ({
-        ...prev,
-        category: normalized,
-        title: prev.title || `Reported ${prediction.category} waste`,
-      }))
-    } else {
-      setMessage("AI confidence is low. Choose the correct category manually before submitting.")
-    }
-
-    setUploading(true)
-    try {
-      setImageUrl(await uploadImage(file))
-    } catch {
-      setMessage("The photo could not be saved. You can still submit the report without it.")
-    } finally {
-      setUploading(false)
-    }
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setMessage("")
@@ -174,6 +191,7 @@ export default function WastePage() {
           category: form.category,
           priority: form.priority,
           imageUrl,
+          classificationWorkflow,
           latitude: form.latitude ? Number(form.latitude) : 0,
           longitude: form.longitude ? Number(form.longitude) : 0,
         }),
@@ -197,10 +215,10 @@ export default function WastePage() {
       } else {
         setMessage(`Report submitted — thank you!${receiptError}`)
       }
-
       setToast({ message: `Report "${form.title}" submitted successfully!`, points: 15 })
       setForm({ title: "", description: "", latitude: "", longitude: "", category: "plastic", priority: "medium" })
       setImageUrl(null)
+      setClassificationWorkflow(null)
       loadReports()
     } catch {
       setMessage("Unable to reach the server. Check that EcoSphere is running and try again.")
@@ -249,7 +267,11 @@ export default function WastePage() {
         />
 
         {/* EcoSphere AI Waste Classification Research Module */}
-        <AIWasteClassifierWidget onPrediction={handleAiPrediction} />
+        <AIWasteClassifierWidget
+          onPrediction={handleAiPrediction}
+          onFailure={handleAiFailure}
+          location={{ latitude: form.latitude, longitude: form.longitude }}
+        />
 
         <div className="flex gap-4">
           <select
