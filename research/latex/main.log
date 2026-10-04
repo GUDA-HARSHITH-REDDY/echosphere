@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.9.21)  21 SEP 2026 06:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.9.21)  4 OCT 2026 13:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -396,37 +396,27 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip55
 )
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
-Package: caption 2023/08/05 v3.6o Customizing captions (AR)
-
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption3.sty
-Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
-\caption@tempdima=\dimen186
-\captionmargin=\dimen187
-\caption@leftmargin=\dimen188
-\caption@rightmargin=\dimen189
-\caption@width=\dimen190
-\caption@indent=\dimen191
-\caption@parindent=\dimen192
-\caption@hangindent=\dimen193
-Package caption Info: Standard document class detected.
-)
-\c@caption@flags=\count317
-\c@continuedfloat=\count318
-Package caption Info: float package is loaded.
-Package caption Info: hyperref package is loaded.
-)
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enumitem.sty
 Package: enumitem 2025/02/06 v3.11 Customized lists
 \labelindent=\skip56
-\enit@outerparindent=\dimen194
+\enit@outerparindent=\dimen186
 \enit@toks=\toks30
 \enit@inbox=\box58
-\enit@count@id=\count319
-\enitdp@description=\count320
+\enit@count@id=\count317
+\enitdp@description=\count318
+)
+(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+Package: array 2025/09/25 v2.6n Tabular extension package (FMi)
+\col@sep=\dimen187
+\ar@mcellbox=\box59
+\extrarowheight=\dimen188
+\NC@list=\toks31
+\extratabsurround=\skip57
+\backup@length=\skip58
+\ar@cellbox=\box60
 )
 Package hyperref Info: Option `colorlinks' set `true' on input line 26.
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 38
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 47
 .
 
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
@@ -435,28 +425,28 @@ File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
 tex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count321
+\l__color_backend_stack_int=\count319
 ) (main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -492,13 +482,13 @@ LaTeX Font Info:    ... okay on input line 38.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \microtypecontext on input line 38.
-Package microtype Info: Applying patch `item' on input line 38.
-Package microtype Info: Applying patch `toc' on input line 38.
-Package microtype Info: Applying patch `eqnum' on input line 38.
-Package microtype Info: Applying patch `footnote' on input line 38.
-Package microtype Info: Applying patch `verbatim' on input line 38.
-LaTeX Info: Redefining \microtypesetup on input line 38.
+LaTeX Info: Redefining \microtypecontext on input line 47.
+Package microtype Info: Applying patch `item' on input line 47.
+Package microtype Info: Applying patch `toc' on input line 47.
+Package microtype Info: Applying patch `eqnum' on input line 47.
+Package microtype Info: Applying patch `footnote' on input line 47.
+Package microtype Info: Applying patch `verbatim' on input line 47.
+LaTeX Info: Redefining \microtypesetup on input line 47.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -516,17 +506,17 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count322
-\scratchdimen=\dimen195
-\scratchbox=\box59
-\nofMPsegments=\count323
-\nofMParguments=\count324
-\everyMPshowfont=\toks31
-\MPscratchCnt=\count325
-\MPscratchDim=\dimen196
-\MPnumerator=\count326
-\makeMPintoPDFobject=\count327
-\everyMPtoPDFconversion=\toks32
+\scratchcounter=\count320
+\scratchdimen=\dimen189
+\scratchbox=\box61
+\nofMPsegments=\count321
+\nofMParguments=\count322
+\everyMPshowfont=\toks32
+\MPscratchCnt=\count323
+\MPscratchDim=\dimen190
+\MPnumerator=\count324
+\makeMPintoPDFobject=\count325
+\everyMPtoPDFconversion=\toks33
 )
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
 ase.sty
@@ -538,44 +528,42 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring ON on input line 38.
+Package hyperref Info: Link coloring ON on input line 47.
  (main.out) (main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
-Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 4
-1.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 5
+0.
 
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 4
-1.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 5
+0.
 
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-41.
+50.
 
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-41.
+50.
 
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 41.
+(Font)              <12> on input line 50.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 41.
+(Font)              <8> on input line 50.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 41.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 41.
+(Font)              <6> on input line 50.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 50.
 
 
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
@@ -584,7 +572,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 41.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 50.
 
 
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
@@ -598,46 +586,66 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 {C:/Users/Admin/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/Admi
 n/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 72.
- [2{C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{
-C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}{
-C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}]
- [3{C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.e
-nc}]
-<images/accuracy_comparison.png, id=96, 433.62pt x 289.08pt>
-File: images/accuracy_comparison.png Graphic file (type png)
-<use images/accuracy_comparison.png>
-Package pdftex.def Info: images/accuracy_comparison.png  used on input line 174
-.
-(pdftex.def)             Requested size: 353.31439pt x 235.5562pt.
-<images/baseline_confusion_matrix.png, id=98, 505.89pt x 361.35pt>
-File: images/baseline_confusion_matrix.png Graphic file (type png)
-<use images/baseline_confusion_matrix.png>
-Package pdftex.def Info: images/baseline_confusion_matrix.png  used on input li
-ne 181.
-(pdftex.def)             Requested size: 353.31439pt x 252.36984pt.
- [4 <./images/accuracy_comparison.png>]
-<images/improved_confusion_matrix.png, id=106, 505.89pt x 361.35pt>
-File: images/improved_confusion_matrix.png Graphic file (type png)
-<use images/improved_confusion_matrix.png>
-Package pdftex.def Info: images/improved_confusion_matrix.png  used on input li
-ne 188.
-(pdftex.def)             Requested size: 353.31439pt x 252.36984pt.
-<images/roc_comparison.png, id=107, 505.89pt x 361.35pt>
-File: images/roc_comparison.png Graphic file (type png)
-<use images/roc_comparison.png>
-Package pdftex.def Info: images/roc_comparison.png  used on input line 195.
-(pdftex.def)             Requested size: 353.31439pt x 252.36984pt.
- [5 <./images/baseline_confusion_matrix.png> <./images/improved_confusion_matri
-x.png>]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
-06.
+(Font)              <10.95> on input line 67.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 7
+2.
 
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
-15.
+) [2{C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}
+{C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}
+{C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}{C:
+/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}] [
+3] [4]
+[5{C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.en
+c}] [6]
+<images/accuracy_comparison.png, id=281, 650.43pt x 433.62pt>
+File: images/accuracy_comparison.png Graphic file (type png)
+<use images/accuracy_comparison.png>
+Package pdftex.def Info: images/accuracy_comparison.png  used on input line 284
+.
+(pdftex.def)             Requested size: 398.61395pt x 265.7451pt.
+<images/ensemble_confusion_matrix_98percent.png, id=283, 578.16pt x 505.89pt>
+File: images/ensemble_confusion_matrix_98percent.png Graphic file (type png)
+<use images/ensemble_confusion_matrix_98percent.png>
+Package pdftex.def Info: images/ensemble_confusion_matrix_98percent.png  used o
+n input line 291.
+(pdftex.def)             Requested size: 339.72592pt x 297.26057pt.
+ [7 <./images/accuracy_comparison.png>]
+<images/per_class_performance_98percent.png, id=293, 722.7pt x 433.62pt>
+File: images/per_class_performance_98percent.png Graphic file (type png)
+<use images/per_class_performance_98percent.png>
+Package pdftex.def Info: images/per_class_performance_98percent.png  used on in
+put line 300.
+(pdftex.def)             Requested size: 398.61395pt x 239.16661pt.
+ [8 <./images/ensemble_confusion_matrix_98percent.png> <./images/per_class_perf
+ormance_98percent.png>]
+<images/roc_comparison.png, id=303, 505.89pt x 361.35pt>
+File: images/roc_comparison.png Graphic file (type png)
+<use images/roc_comparison.png>
+Package pdftex.def Info: images/roc_comparison.png  used on input line 309.
+(pdftex.def)             Requested size: 371.43698pt x 265.31613pt.
+<images/component_contribution_ablation.png, id=315, 860.013pt x 570.4512pt>
+File: images/component_contribution_ablation.png Graphic file (type png)
+<use images/component_contribution_ablation.png>
+Package pdftex.def Info: images/component_contribution_ablation.png  used on in
+put line 340.
+(pdftex.def)             Requested size: 371.43698pt x 246.37727pt.
+ [9 <./images/roc_comparison.png>]
+<images/radar_comparison.png, id=323, 700.7781pt x 576.2328pt>
+File: images/radar_comparison.png Graphic file (type png)
+<use images/radar_comparison.png>
+Package pdftex.def Info: images/radar_comparison.png  used on input line 347.
+(pdftex.def)             Requested size: 326.13744pt x 268.18288pt.
+<images/accuracy_timeline.png, id=325, 998.0487pt x 570.933pt>
+File: images/accuracy_timeline.png Graphic file (type png)
+<use images/accuracy_timeline.png>
+Package pdftex.def Info: images/accuracy_timeline.png  used on input line 359.
+(pdftex.def)             Requested size: 398.61395pt x 228.02939pt.
+ [10 <./images/component_contribution_ablation.png> <./images/radar_comparison.
+png>] [11 <./images/accuracy_timeline.png>]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
+96.
 
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -646,55 +654,42 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [6{C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}
- <./images/roc_comparison.png>]
-Overfull \hbox (22.72127pt too wide) in paragraph at lines 222--223
-\T1/lmr/m/n/10.95 (-20) The pro-cessed dataset man-i-fest is stored at \T1/lmtt
-/m/n/10.95 research/dataset/processed/dataset_manifest.json\T1/lmr/m/n/10.95 (-
-20) .
- []
-
-
-Overfull \hbox (140.00986pt too wide) in paragraph at lines 222--223
-\T1/lmr/m/n/10.95 (-20) The mea-sured re-sult files are \T1/lmtt/m/n/10.95 rese
-arch/results/baseline_results.json \T1/lmr/m/n/10.95 (-20) and \T1/lmtt/m/n/10.
-95 research/results/improved_results.json\T1/lmr/m/n/10.95 (-20) .
- []
-
-[7] (main.aux)
+ [12]
+[13] [14] (main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: FBFE9BF744B2E1EE3E63B0B9C422794D;1746.
+(rerunfilecheck)             Checksum: DF8B14150D6AD043AB254B6D90CBCD62;5430.
  ) 
 Here is how much of TeX's memory you used:
- 14998 strings out of 467871
- 241057 string characters out of 5418376
- 698128 words of memory out of 5000000
- 43503 multiletter control sequences out of 15000+600000
- 683133 words of font info for 144 fonts, out of 8000000 for 9000
+ 13987 strings out of 467871
+ 220071 string characters out of 5418376
+ 681118 words of memory out of 5000000
+ 42346 multiletter control sequences out of 15000+600000
+ 706032 words of font info for 189 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,8n,79p,1158b,617s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,13n,79p,2450b,620s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pf
 b><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pf
-b><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pf
-b><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pf
-b><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb
-><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb>
-<C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><
-C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C
-:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/
-Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/
-Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/
-Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/U
-sers/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/U
-sers/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/ms
-bm10.pfb>
-Output written on main.pdf (7 pages, 688689 bytes).
+b><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx8.pfb
+><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb
+><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb
+><C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi6.pfb>
+<C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><
+C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C
+:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:
+/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/U
+sers/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/U
+sers/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/U
+sers/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Us
+ers/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Us
+ers/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msb
+m10.pfb>
+Output written on main.pdf (14 pages, 1921516 bytes).
 PDF statistics:
- 218 PDF objects out of 1000 (max. 8388607)
- 41 named destinations out of 1000 (max. 500000)
- 31357 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 470 PDF objects out of 1000 (max. 8388607)
+ 108 named destinations out of 1000 (max. 500000)
+ 43732 words of extra memory for PDF output out of 51595 (max. 10000000)
 
