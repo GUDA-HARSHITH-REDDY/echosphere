@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.9.21)  4 OCT 2026 13:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.9.21)  4 OCT 2026 16:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -22,17 +22,13 @@ File: size11.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
 \abovecaptionskip=\skip49
 \belowcaptionskip=\skip50
 \bibindent=\dimen148
-)
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
 Package: geometry 2026/03/07 v6.0 Page Geometry
-
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks17
-)
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
-
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
 Package: iftex 2024/12/12 v1.0g TeX engine tests
 ))
@@ -48,17 +44,14 @@ Package: iftex 2024/12/12 v1.0g TeX engine tests
 \Gm@layouthoffset=\dimen155
 \Gm@layoutvoffset=\dimen156
 \Gm@dimlist=\toks18
-
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
 Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
-)
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty
+) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty
 Package: inputenc 2024/02/08 v1.3d Input encoding file
 \inpenc@prehook=\toks19
 \inpenc@posthook=\toks20
-)
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\lmodern.sty
+) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\lmodern.sty
 Package: lmodern 2015/05/01 v1.6.1 Latin Modern Fonts
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
@@ -129,21 +122,17 @@ LaTeX Info: Redefining \microtypesetup on input line 3065.
 ) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
 Package: amsmath 2025/07/09 v2.17z AMS math features
 \@mathmargin=\skip52
-
 For additional information on amsmath, use the `?' option.
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
 Package: amstext 2024/11/17 v2.01 AMS text
-
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks23
 \ex@=\dimen158
-))
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
+)) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen159
-)
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
+) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
 \inf@bad=\count289
@@ -193,10 +182,8 @@ LaTeX Info: Redefining \Relbar on input line 970.
 \mathdisplay@stack=\toks27
 LaTeX Info: Redefining \[ on input line 2950.
 LaTeX Info: Redefining \] on input line 2951.
-)
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
-
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
@@ -226,10 +213,8 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisrulewidth=\dimen179
 ) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
 Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
-
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
 Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
-
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
 Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
 )
@@ -251,10 +236,8 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \float@box=\box56
 \@float@everytoks=\toks29
 \@floatcapt=\box57
-)
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
 Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
-
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
@@ -282,7 +265,6 @@ Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.s
 ty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
-
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
 Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
 )
@@ -298,13 +280,10 @@ Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-))
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty
+)) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-)
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
 Package: nameref 2025-06-21 v2.57 Cross-referencing by name of section
-
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 )
@@ -325,7 +304,7 @@ Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
 \@linkdim=\dimen182
 \Hy@linkcounter=\count307
 \Hy@pagecounter=\count308
- (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
+(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
 File: pd1enc.def 2025-07-12 v7.01o Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
@@ -333,7 +312,7 @@ Now handling font encoding PD1 ...
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
 \Hy@SavedSpaceFactor=\count309
- (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def
+(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def
 File: puenc.def 2025-07-12 v7.01o Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
@@ -346,14 +325,12 @@ Package hyperref Info: Backreferencing OFF on input line 4215.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4462.
 \c@Hy@tempcnt=\count310
-
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
 \Urlmuskip=\muskip18
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4801.
 \XeTeXLinkMargin=\dimen183
-
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 
@@ -377,7 +354,6 @@ Package hyperref Info: PDF/A mode OFF on input line 6108.
 \c@Hfootnote=\count314
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
-
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
 File: hpdftex.def 2025-07-12 v7.01o Hyperref driver for pdfTeX
 \Fld@listcount=\count315
@@ -395,8 +371,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 84.
 )
 \Hy@SectionHShift=\skip55
-)
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enumitem.sty
+) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enumitem.sty
 Package: enumitem 2025/02/06 v3.11 Customized lists
 \labelindent=\skip56
 \enit@outerparindent=\dimen186
@@ -404,8 +379,7 @@ Package: enumitem 2025/02/06 v3.11 Customized lists
 \enit@inbox=\box58
 \enit@count@id=\count317
 \enitdp@description=\count318
-)
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
 Package: array 2025/09/25 v2.6n Tabular extension package (FMi)
 \col@sep=\dimen187
 \ar@mcellbox=\box59
@@ -416,9 +390,8 @@ Package: array 2025/09/25 v2.6n Tabular extension package (FMi)
 \ar@cellbox=\box60
 )
 Package hyperref Info: Option `colorlinks' set `true' on input line 26.
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 47
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 49
 .
-
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -429,25 +402,24 @@ File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 ) (main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -482,13 +454,13 @@ LaTeX Font Info:    ... okay on input line 47.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \microtypecontext on input line 47.
-Package microtype Info: Applying patch `item' on input line 47.
-Package microtype Info: Applying patch `toc' on input line 47.
-Package microtype Info: Applying patch `eqnum' on input line 47.
-Package microtype Info: Applying patch `footnote' on input line 47.
-Package microtype Info: Applying patch `verbatim' on input line 47.
-LaTeX Info: Redefining \microtypesetup on input line 47.
+LaTeX Info: Redefining \microtypecontext on input line 49.
+Package microtype Info: Applying patch `item' on input line 49.
+Package microtype Info: Applying patch `toc' on input line 49.
+Package microtype Info: Applying patch `eqnum' on input line 49.
+Package microtype Info: Applying patch `footnote' on input line 49.
+Package microtype Info: Applying patch `verbatim' on input line 49.
+LaTeX Info: Redefining \microtypesetup on input line 49.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -528,125 +500,113 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring ON on input line 47.
- (main.out) (main.out)
+Package hyperref Info: Link coloring ON on input line 49.
+(main.out) (main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 5
-0.
-
+2.
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 5
-0.
-
+2.
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-50.
-
+52.
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-50.
-
+52.
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 50.
+(Font)              <12> on input line 52.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 50.
+(Font)              <8> on input line 52.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 50.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 50.
-
+(Font)              <6> on input line 52.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 52.
 
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msa.cfg
+) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 50.
-
+LaTeX Font Info:    Trying to load font information for U+msb on input line 52.
 
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-(C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msb.cfg
+) (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-)
-[1
+) [1
 
 {C:/Users/Admin/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/Admi
 n/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 67.
+(Font)              <10.95> on input line 69.
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 7
-2.
-
+4.
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [2{C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}
 {C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}
 {C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}{C:
 /Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}] [
-3] [4]
-[5{C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.en
-c}] [6]
+3] [4] [5{C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ma
+thex.enc}] [6]
 <images/accuracy_comparison.png, id=281, 650.43pt x 433.62pt>
 File: images/accuracy_comparison.png Graphic file (type png)
 <use images/accuracy_comparison.png>
-Package pdftex.def Info: images/accuracy_comparison.png  used on input line 284
+Package pdftex.def Info: images/accuracy_comparison.png  used on input line 286
 .
 (pdftex.def)             Requested size: 398.61395pt x 265.7451pt.
 <images/ensemble_confusion_matrix_98percent.png, id=283, 578.16pt x 505.89pt>
 File: images/ensemble_confusion_matrix_98percent.png Graphic file (type png)
 <use images/ensemble_confusion_matrix_98percent.png>
 Package pdftex.def Info: images/ensemble_confusion_matrix_98percent.png  used o
-n input line 291.
+n input line 293.
 (pdftex.def)             Requested size: 339.72592pt x 297.26057pt.
- [7 <./images/accuracy_comparison.png>]
+[7 <./images/accuracy_comparison.png>]
 <images/per_class_performance_98percent.png, id=293, 722.7pt x 433.62pt>
 File: images/per_class_performance_98percent.png Graphic file (type png)
 <use images/per_class_performance_98percent.png>
 Package pdftex.def Info: images/per_class_performance_98percent.png  used on in
-put line 300.
+put line 302.
 (pdftex.def)             Requested size: 398.61395pt x 239.16661pt.
- [8 <./images/ensemble_confusion_matrix_98percent.png> <./images/per_class_perf
-ormance_98percent.png>]
+[8 <./images/ensemble_confusion_matrix_98percent.png> <./images/per_class_perfo
+rmance_98percent.png>]
 <images/roc_comparison.png, id=303, 505.89pt x 361.35pt>
 File: images/roc_comparison.png Graphic file (type png)
 <use images/roc_comparison.png>
-Package pdftex.def Info: images/roc_comparison.png  used on input line 309.
+Package pdftex.def Info: images/roc_comparison.png  used on input line 311.
 (pdftex.def)             Requested size: 371.43698pt x 265.31613pt.
 <images/component_contribution_ablation.png, id=315, 860.013pt x 570.4512pt>
 File: images/component_contribution_ablation.png Graphic file (type png)
 <use images/component_contribution_ablation.png>
 Package pdftex.def Info: images/component_contribution_ablation.png  used on in
-put line 340.
+put line 342.
 (pdftex.def)             Requested size: 371.43698pt x 246.37727pt.
- [9 <./images/roc_comparison.png>]
+[9 <./images/roc_comparison.png>]
 <images/radar_comparison.png, id=323, 700.7781pt x 576.2328pt>
 File: images/radar_comparison.png Graphic file (type png)
 <use images/radar_comparison.png>
-Package pdftex.def Info: images/radar_comparison.png  used on input line 347.
+Package pdftex.def Info: images/radar_comparison.png  used on input line 349.
 (pdftex.def)             Requested size: 326.13744pt x 268.18288pt.
 <images/accuracy_timeline.png, id=325, 998.0487pt x 570.933pt>
 File: images/accuracy_timeline.png Graphic file (type png)
 <use images/accuracy_timeline.png>
-Package pdftex.def Info: images/accuracy_timeline.png  used on input line 359.
+Package pdftex.def Info: images/accuracy_timeline.png  used on input line 361.
 (pdftex.def)             Requested size: 398.61395pt x 228.02939pt.
- [10 <./images/component_contribution_ablation.png> <./images/radar_comparison.
-png>] [11 <./images/accuracy_timeline.png>]
+[10 <./images/component_contribution_ablation.png> <./images/radar_comparison.p
+ng>] [11 <./images/accuracy_timeline.png>]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
-96.
-
+93.
 (C:\Users\Admin\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -654,8 +614,115 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [12]
-[13] [14] (main.aux)
+
+Underfull \hbox (badness 8170) in paragraph at lines 390--394
+[]\T1/lmr/m/n/10.95 (+20) G. Thung and M. Yang,  ``Clas-si-fi-ca-tion of trash 
+for re-cy-cla-bil-ity sta-
+ []
+
+
+Underfull \hbox (badness 4454) in paragraph at lines 390--394
+\T1/lmr/m/n/10.95 (+20) tus,''  \T1/lmr/m/it/10.95 (+20) Stan-ford Uni-ver-sity
+ CS229 Com-puter Sci-ence Tech-ni-cal Re-port\T1/lmr/m/n/10.95 (+20) , 2016.
+ []
+
+
+Underfull \hbox (badness 1389) in paragraph at lines 402--406
+[]\T1/lmr/m/n/10.95 (+20) R. M. Fer-rer, M. J. C. Sa-monte, and D. J. F. San-to
+s,  ``Smart waste man-
+ []
+
+
+Underfull \hbox (badness 3364) in paragraph at lines 402--406
+\T1/lmr/m/n/10.95 (+20) age-ment: An AI-trainable trash bin for op-ti-mized was
+te seg-re-ga-tion,''  \T1/lmr/m/it/10.95 (+20) In-
+ []
+
+
+Underfull \hbox (badness 2326) in paragraph at lines 402--406
+\T1/lmr/m/it/10.95 (+20) ter-na-tional Jour-nal of Re-search Pub-li-ca-tions\T1
+/lmr/m/n/10.95 (+20) , vol. 165, no. 1, pp. 1--14, 2025.
+ []
+
+[12]
+Underfull \hbox (badness 1107) in paragraph at lines 450--454
+\T1/lmr/m/n/10.95 (+20) In-verted resid-u-als and lin-ear bot-tle-necks,''  in 
+\T1/lmr/m/it/10.95 (+20) Pro-ceed-ings of the IEEE Con-fer-
+ []
+
+
+Underfull \hbox (badness 1735) in paragraph at lines 498--502
+[]\T1/lmr/m/n/10.95 (+20) Y. Cui, M. Jia, T.-Y. Lin, Y. Song, and S. Be-longie,
+  ``Class-balanced loss
+ []
+
+
+Underfull \hbox (badness 1552) in paragraph at lines 516--520
+[]\T1/lmr/m/n/10.95 (+20) I. Loshchilov and F. Hut-ter,  ``SGDR: Stochas-tic gr
+a-di-ent de-scent with warm
+ []
+
+
+Underfull \hbox (badness 2689) in paragraph at lines 522--526
+[]\T1/lmr/m/n/10.95 (+20) C. Shorten and T. M. Khosh-gof-taar,  ``A sur-vey on 
+im-age data aug-men-ta-
+ []
+
+
+Underfull \hbox (badness 2359) in paragraph at lines 522--526
+\T1/lmr/m/n/10.95 (+20) tion for deep learn-ing,''  \T1/lmr/m/it/10.95 (+20) Jo
+ur-nal of Big Data\T1/lmr/m/n/10.95 (+20) , vol. 6, no. 1, p. 60, 2019.
+ []
+
+[13]
+Underfull \hbox (badness 4832) in paragraph at lines 546--550
+[]\T1/lmr/m/n/10.95 (+20) N. Sri-vas-tava, G. Hin-ton, A. Krizhevsky, I. Sutske
+ver, and R. Salakhut-di-
+ []
+
+
+Underfull \hbox (badness 1881) in paragraph at lines 546--550
+\T1/lmr/m/n/10.95 (+20) nov,  ``Dropout: A sim-ple way to pre-vent neu-ral net-
+works from over-fit-ting,''
+ []
+
+
+Underfull \hbox (badness 3058) in paragraph at lines 546--550
+\T1/lmr/m/it/10.95 (+20) Jour-nal of Ma-chine Learn-ing Re-search\T1/lmr/m/n/10
+.95 (+20) , vol. 15, no. 1, pp. 1929--1958, 2014.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 552--556
+[]\T1/lmr/m/n/10.95 (+20) B. Lak-sh-mi-narayanan, A. Pritzel, and C. Blun-dell,
+  ``Sim-ple and scal-
+ []
+
+
+Underfull \hbox (badness 4673) in paragraph at lines 552--556
+\T1/lmr/m/n/10.95 (+20) able pre-dic-tive un-cer-tainty es-ti-ma-tion us-ing de
+ep en-sem-bles,''  in \T1/lmr/m/it/10.95 (+20) Ad-vances
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 552--556
+\T1/lmr/m/it/10.95 (+20) in Neu-ral In-for-ma-tion Pro-cess-ing Sys-tems (NeurI
+PS)\T1/lmr/m/n/10.95 (+20) , pp. 6402--6413, 2017.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 564--568
+[]\T1/lmr/m/n/10.95 (+20) C. E. Shan-non,  ``A math-e-mat-i-cal the-ory of com-
+mu-ni-ca-tion,''  \T1/lmr/m/it/10.95 (+20) Bell
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 564--568
+\T1/lmr/m/it/10.95 (+20) Sys-tem Tech-ni-cal Jour-nal\T1/lmr/m/n/10.95 (+20) , 
+vol. 27, no. 3, pp. 379--423, 1948.
+ []
+
+[14] (main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
@@ -664,11 +731,11 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: DF8B14150D6AD043AB254B6D90CBCD62;5430.
  ) 
 Here is how much of TeX's memory you used:
- 13987 strings out of 467871
- 220071 string characters out of 5418376
- 681118 words of memory out of 5000000
- 42346 multiletter control sequences out of 15000+600000
- 706032 words of font info for 189 fonts, out of 8000000 for 9000
+ 13988 strings out of 467871
+ 220085 string characters out of 5418376
+ 681134 words of memory out of 5000000
+ 42347 multiletter control sequences out of 15000+600000
+ 706079 words of font info for 189 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,13n,79p,2450b,620s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pf
@@ -687,9 +754,9 @@ sers/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Us
 ers/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Us
 ers/Admin/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msb
 m10.pfb>
-Output written on main.pdf (14 pages, 1921516 bytes).
+Output written on main.pdf (14 pages, 1932274 bytes).
 PDF statistics:
- 470 PDF objects out of 1000 (max. 8388607)
+ 496 PDF objects out of 1000 (max. 8388607)
  108 named destinations out of 1000 (max. 500000)
  43732 words of extra memory for PDF output out of 51595 (max. 10000000)
 
