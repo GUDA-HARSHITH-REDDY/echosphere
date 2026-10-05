@@ -73,14 +73,7 @@ export const AIWasteClassifierWidget: React.FC<Props> = ({ onPrediction, onFailu
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    // Create immediate local image preview
-    const objectUrl = URL.createObjectURL(file);
-    setPreviewUrl(objectUrl);
-
+  const classifyFile = async (file: File) => {
     setLoading(true);
     setErrorMsg(null);
     const fd = new FormData();
@@ -106,6 +99,27 @@ export const AIWasteClassifierWidget: React.FC<Props> = ({ onPrediction, onFailu
       onFailure?.({ message: "Could not connect to the classifier service." });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const objectUrl = URL.createObjectURL(file);
+    setPreviewUrl(objectUrl);
+    await classifyFile(file);
+  };
+
+  const handleTestSample = async (samplePath: string, filename: string) => {
+    setPreviewUrl(samplePath);
+    try {
+      const res = await fetch(samplePath);
+      const blob = await res.blob();
+      const file = new File([blob], filename, { type: "image/jpeg" });
+      await classifyFile(file);
+    } catch {
+      setErrorMsg("Could not load sample test image.");
     }
   };
 
@@ -163,6 +177,35 @@ export const AIWasteClassifierWidget: React.FC<Props> = ({ onPrediction, onFailu
             </div>
           </div>
         </label>
+      </div>
+
+      {/* Quick Test Samples */}
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <span className="text-xs text-slate-500 font-medium">Or test sample benchmark images:</span>
+        <button
+          type="button"
+          disabled={loading}
+          onClick={() => handleTestSample("/sample_plastic.jpg", "plastic105.jpg")}
+          className="text-xs bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 px-2.5 py-1 rounded-md font-medium transition-colors disabled:opacity-50"
+        >
+          🧴 Plastic Bottle
+        </button>
+        <button
+          type="button"
+          disabled={loading}
+          onClick={() => handleTestSample("/sample_cardboard.jpg", "cardboard106.jpg")}
+          className="text-xs bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200 px-2.5 py-1 rounded-md font-medium transition-colors disabled:opacity-50"
+        >
+          📦 Cardboard Box
+        </button>
+        <button
+          type="button"
+          disabled={loading}
+          onClick={() => handleTestSample("/sample_metal.jpg", "metal101.jpg")}
+          className="text-xs bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300 px-2.5 py-1 rounded-md font-medium transition-colors disabled:opacity-50"
+        >
+          🥫 Soda Can (Metal)
+        </button>
       </div>
 
       {/* Loading State */}
