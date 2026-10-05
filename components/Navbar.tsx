@@ -22,12 +22,6 @@ const userLinks = [
   { href: "/history", label: "My History" }
 ]
 
-const adminLinks = [
-  { href: "/admin", label: "Manage Users & Reports" },
-  { href: "/analytics", label: "Analytics" },
-  { href: "/profile", label: "Profile" },
-]
-
 export default function Navbar() {
   const router = useRouter()
   const { dark, toggle } = useTheme()
@@ -50,7 +44,9 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  const links = user?.isAdmin ? adminLinks : userLinks
+  const links = user?.isAdmin
+    ? [...userLinks, { href: "/admin", label: "Manage Users & Reports" }]
+    : userLinks
 
   const handleLogout = () => {
     localStorage.removeItem("token")
@@ -96,14 +92,14 @@ export default function Navbar() {
             </button>
 
             {menuOpen && (
-              <div className="absolute right-0 mt-2 w-64 bg-white text-gray-800 rounded-lg shadow-xl border overflow-hidden z-50">
+              <div className="absolute right-0 mt-2 w-64 bg-white text-gray-800 rounded-lg shadow-xl border overflow-hidden z-50 max-h-[85vh] overflow-y-auto">
                 <div className="flex flex-col py-2">
                   {links.map((l) => (
                     <Link
                       key={l.href}
                       href={l.href}
                       onClick={() => setMenuOpen(false)}
-                      className="px-4 py-2 text-sm hover:bg-green-50"
+                      className="px-4 py-2 text-sm hover:bg-green-50 transition-colors"
                     >
                       {l.label}
                     </Link>
